@@ -16,6 +16,7 @@ public class Have {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        GestionBaseDeDonnees gestionBaseDeDonnees = new GestionBaseDeDonnees();
     }
     
 }
