@@ -94,8 +94,8 @@ public class GestionBaseDeDonnees {
     public void dropLivreWhereId(Livre livre) {
         try {
             String id = livre.getId();
-            String sqlRequest = "DELETE" +
-                    "FROM LIVRE" +
+            String sqlRequest = "DELETE " +
+                    "FROM LIVRE " +
                     "WHERE LIVRE.id = " + id;
             this.statement.executeUpdate(sqlRequest);
         } catch (SQLException ex) {
@@ -105,8 +105,8 @@ public class GestionBaseDeDonnees {
     
     public void dropLivreWhereId(String id) {
         try {
-            String sqlRequest = "DELETE" +
-                    "FROM LIVRE" +
+            String sqlRequest = "DELETE " +
+                    "FROM LIVRE " +
                     "WHERE LIVRE.id = " + id;
             this.statement.executeUpdate(sqlRequest);
         } catch (SQLException ex) {
