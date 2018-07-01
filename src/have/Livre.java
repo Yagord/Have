@@ -64,4 +64,9 @@ public class Livre {
         this.categorie = categorie;
     }
     
+    @Override
+    public String toString() {
+        return this.id + ", " + this.titre + ", " + this.auteur + ", " + this.numero + ", " + this.categorie + ", ";
+    }
+    
 }

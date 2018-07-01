@@ -7,6 +7,7 @@ package have;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -28,7 +29,8 @@ public class GestionBaseDeDonnees {
                                                "(id int auto_increment NOT NULL PRIMARY KEY, " +
                                                "titre VARCHAR(255), " +
                                                "auteur VARCHAR(255), " +
-                                               "categorie VARCHAR(255))";
+                                               "numero VARCHAR(255), " +
+                                               "categorie VARCHAR(255));";
     
     public GestionBaseDeDonnees() {
         this.ouvrirConnection();
@@ -50,14 +52,40 @@ public class GestionBaseDeDonnees {
         }
     }
     
-    public void ajouterLivre(Livre livre) {
+    public void insertIntoLivre(Livre livre) {
         try {
             String titre = livre.getTitre();
             String auteur = livre.getAuteur();
+            String numero = livre.getNumero();
             String categorie = livre.getCategorie();
-            String sqlRequest = "INSERT INTO LIVRE (titre, auteur, categorie) VALUES(" +
-                    titre + ", " + auteur + ", " + categorie + ");";
+            String sqlRequest = "INSERT INTO LIVRE (titre, auteur, numero, categorie) VALUES ('" +
+                    titre + "', '" + auteur + "', '" + numero + "', '" + categorie + "');";
             this.statement.executeUpdate(sqlRequest);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public java.util.ArrayList<Livre> selectAllFromLivre() {
+        java.util.ArrayList<Livre> alLivres = new java.util.ArrayList();
+        try {
+            String sqlRequest = "SELECT * FROM LIVRE;";
+            ResultSet resultSet = this.statement.executeQuery(sqlRequest);
+            
+            while (resultSet.next()) {
+                Livre livre = new Livre(resultSet.getString("id"), resultSet.getString("titre"), resultSet.getString("auteur"), resultSet.getString("numero"), resultSet.getString("categorie"));
+                alLivres.add(livre);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alLivres;
+    }
+    
+    public void dropAllFromLivre() {
+        try {
+            String sqlRequest = "DELETE FROM LIVRE;";
+            this.statement.execute(sqlRequest);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
