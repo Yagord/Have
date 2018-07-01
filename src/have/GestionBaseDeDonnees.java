@@ -91,5 +91,28 @@ public class GestionBaseDeDonnees {
         }
     }
     
+    public void dropLivreWhereId(Livre livre) {
+        try {
+            String id = livre.getId();
+            String sqlRequest = "DELETE" +
+                    "FROM LIVRE" +
+                    "WHERE LIVRE.id = " + id;
+            this.statement.executeUpdate(sqlRequest);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void dropLivreWhereId(String id) {
+        try {
+            String sqlRequest = "DELETE" +
+                    "FROM LIVRE" +
+                    "WHERE LIVRE.id = " + id;
+            this.statement.executeUpdate(sqlRequest);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
 }
