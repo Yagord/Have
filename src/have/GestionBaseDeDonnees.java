@@ -42,11 +42,28 @@ public class GestionBaseDeDonnees {
             this.connection = DriverManager.getConnection(GestionBaseDeDonnees.DB_URL, GestionBaseDeDonnees.DB_USERNAME, GestionBaseDeDonnees.DB_PASSWORD);
             this.statement = this.connection.createStatement();
             System.out.println("Connexion...");
-            this.statement.execute(GestionBaseDeDonnees.CREATE_TABLE);
+            this.createTableLivre();
             System.out.println("Table crée.");
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void fermerConnection() {
+        try {
+            this.statement.close();
+            this.connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void createTableLivre() {
+        try {
+            this.statement.execute(GestionBaseDeDonnees.CREATE_TABLE);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -96,7 +113,7 @@ public class GestionBaseDeDonnees {
         return res;
     }
     
-    public void dropAllFromLivre() {
+    public void deleteAllFromLivre() {
         try {
             String sqlQuery = "DELETE FROM LIVRE;";
             this.statement.execute(sqlQuery);
@@ -105,7 +122,7 @@ public class GestionBaseDeDonnees {
         }
     }
     
-    public void dropLivreWhereId(Livre livre) {
+    public void deleteLivreWhereId(Livre livre) {
         try {
             String id = livre.getId();
             String sqlQuery = "DELETE " +
@@ -117,7 +134,7 @@ public class GestionBaseDeDonnees {
         }
     }
     
-    public void dropLivreWhereId(String id) {
+    public void deleteLivreWhereId(String id) {
         try {
             String sqlQuery = "DELETE " +
                               "FROM LIVRE " +
@@ -142,4 +159,18 @@ public class GestionBaseDeDonnees {
         }
     }
     
+    public void dropTableLivre() {
+        try {
+            String sqlQuery = "DROP TABLE LIVRE;";
+            this.statement.executeUpdate(sqlQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void dropTableLivreAndRecreateTableLivre() {
+        this.dropTableLivre();
+        this.createTableLivre();
+    }
+
 }
