@@ -95,8 +95,8 @@ public class GestionBaseDeDonnees {
         try {
             String id = livre.getId();
             String sqlRequest = "DELETE " +
-                    "FROM LIVRE " +
-                    "WHERE LIVRE.id = " + id;
+                                "FROM LIVRE " +
+                                "WHERE LIVRE.id = " + id;
             this.statement.executeUpdate(sqlRequest);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,13 +106,26 @@ public class GestionBaseDeDonnees {
     public void dropLivreWhereId(String id) {
         try {
             String sqlRequest = "DELETE " +
-                    "FROM LIVRE " +
-                    "WHERE LIVRE.id = " + id;
+                                "FROM LIVRE " +
+                                "WHERE LIVRE.id = " + id;
             this.statement.executeUpdate(sqlRequest);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    public void updateLivreWhereId(Livre livre) {
+        try {
+            String sqlQuery = "UPDATE LIVRE " +
+                              "SET titre = " + livre.getTitre()+ ", " +
+                              "auteur = " + livre.getAuteur() + ", " +
+                              "numero = " + livre.getNumero()+ ", " +
+                              "categorie = " + livre.getCategorie()+ ", " +
+                              "WHERE id = " + livre.getId() + ";";
+            this.statement.executeUpdate(sqlQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }
