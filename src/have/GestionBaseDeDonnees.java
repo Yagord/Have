@@ -58,9 +58,9 @@ public class GestionBaseDeDonnees {
             String auteur = livre.getAuteur();
             String numero = livre.getNumero();
             String categorie = livre.getCategorie();
-            String sqlRequest = "INSERT INTO LIVRE (titre, auteur, numero, categorie) VALUES ('" +
-                    titre + "', '" + auteur + "', '" + numero + "', '" + categorie + "');";
-            this.statement.executeUpdate(sqlRequest);
+            String sqlQuery = "INSERT INTO LIVRE (titre, auteur, numero, categorie) VALUES ('" +
+                              titre + "', '" + auteur + "', '" + numero + "', '" + categorie + "');";
+            this.statement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,8 +69,8 @@ public class GestionBaseDeDonnees {
     public java.util.ArrayList<Livre> selectAllFromLivre() {
         java.util.ArrayList<Livre> alLivres = new java.util.ArrayList();
         try {
-            String sqlRequest = "SELECT * FROM LIVRE;";
-            ResultSet resultSet = this.statement.executeQuery(sqlRequest);
+            String sqlQuery = "SELECT * FROM LIVRE;";
+            ResultSet resultSet = this.statement.executeQuery(sqlQuery);
             
             while (resultSet.next()) {
                 Livre livre = new Livre(resultSet.getString("id"), resultSet.getString("titre"), resultSet.getString("auteur"), resultSet.getString("numero"), resultSet.getString("categorie"));
@@ -82,10 +82,24 @@ public class GestionBaseDeDonnees {
         return alLivres;
     }
     
+    public int selectCountAllFromLivre() {
+        int res = 0;
+        try {
+            String sqlQuery = "SELECT COUNT(*) FROM LIVRE;";
+            ResultSet resultSet = this.statement.executeQuery(sqlQuery);
+            resultSet.next();
+            res = resultSet.getInt(1);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
+    
     public void dropAllFromLivre() {
         try {
-            String sqlRequest = "DELETE FROM LIVRE;";
-            this.statement.execute(sqlRequest);
+            String sqlQuery = "DELETE FROM LIVRE;";
+            this.statement.execute(sqlQuery);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -94,10 +108,10 @@ public class GestionBaseDeDonnees {
     public void dropLivreWhereId(Livre livre) {
         try {
             String id = livre.getId();
-            String sqlRequest = "DELETE " +
-                                "FROM LIVRE " +
-                                "WHERE LIVRE.id = " + id;
-            this.statement.executeUpdate(sqlRequest);
+            String sqlQuery = "DELETE " +
+                              "FROM LIVRE " +
+                              "WHERE LIVRE.id = " + id;
+            this.statement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -105,10 +119,10 @@ public class GestionBaseDeDonnees {
     
     public void dropLivreWhereId(String id) {
         try {
-            String sqlRequest = "DELETE " +
-                                "FROM LIVRE " +
-                                "WHERE LIVRE.id = " + id;
-            this.statement.executeUpdate(sqlRequest);
+            String sqlQuery = "DELETE " +
+                              "FROM LIVRE " +
+                              "WHERE LIVRE.id = " + id;
+            this.statement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -117,11 +131,11 @@ public class GestionBaseDeDonnees {
     public void updateLivreWhereId(Livre livre) {
         try {
             String sqlQuery = "UPDATE LIVRE " +
-                              "SET titre = " + livre.getTitre()+ ", " +
-                              "auteur = " + livre.getAuteur() + ", " +
-                              "numero = " + livre.getNumero()+ ", " +
-                              "categorie = " + livre.getCategorie()+ ", " +
-                              "WHERE id = " + livre.getId() + ";";
+                              "SET titre = '" + livre.getTitre()+ "', " +
+                              "auteur = '" + livre.getAuteur() + "', " +
+                              "numero = '" + livre.getNumero()+ "', " +
+                              "categorie = '" + livre.getCategorie()+ "' " +
+                              "WHERE id = '" + livre.getId() + "';";
             this.statement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);

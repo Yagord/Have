@@ -66,7 +66,7 @@ public class Livre {
     
     @Override
     public String toString() {
-        return this.id + ", " + this.titre + ", " + this.auteur + ", " + this.numero + ", " + this.categorie + ", ";
+        return this.id + ", " + this.titre + ", " + this.auteur + ", " + this.numero + ", " + this.categorie;
     }
     
 }
