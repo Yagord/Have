@@ -102,6 +102,27 @@ public class GestionBaseDeDonnees {
         return alLivres;
     }
     
+    public java.util.ArrayList<Object[]> selectAllObjectsFromLivre() {
+        java.util.ArrayList<Object[]> alObjects = new java.util.ArrayList();
+        try {
+            String sqlQuery = "SELECT * FROM LIVRE;";
+            ResultSet resultSet = this.statement.executeQuery(sqlQuery);
+            
+            this.nbColonnes = resultSet.getMetaData().getColumnCount();
+            
+            while (resultSet.next()) {
+                Object[] objects = new Object[this.nbColonnes + 1];
+                for (int i = 1; i <= this.nbColonnes; i++) {
+                    objects[i-1] = resultSet.getObject(i);
+                }
+                alObjects.add(objects);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alObjects;
+    }
+    
     public int selectCountAllFromLivre() {
         int res = 0;
         try {
