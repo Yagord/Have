@@ -19,6 +19,10 @@ public class Home extends javax.swing.JFrame {
     private static final Color COLOR_BUTTON_SELECTED = new Color(228, 228, 229);
     private static final Color COLOR_LABEL_UNSELECTED = new Color(197, 56, 53);
     private static final Color COLOR_LABEL_SELECTED = new Color(181, 53, 51);
+    private static final Color COLOR_BUTTON_CLOSE_UNSELECTED = new Color(226, 226, 226);
+    private static final Color COLOR_BUTTON_CLOSE_SELECTED = new Color(232, 17, 35);
+    private static final Color COLOR_LABEL_CLOSE_UNSELECTED = new Color(5, 7, 8);
+    private static final Color COLOR_LABEL_CLOSE_SELECTED = new Color(255, 255, 255);
     private boolean consulterPressed;
     private boolean ajouterPressed;
     private boolean supprimerPressed;
@@ -54,29 +58,14 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void chargerDonnees() {
-        java.util.ArrayList<Livre> alLivres = new java.util.ArrayList();
-        alLivres = this.gestionBaseDeDonnees.selectAllFromLivre();
+        java.util.ArrayList<Object[]> alLivres = new java.util.ArrayList();
+        alLivres = this.gestionBaseDeDonnees.selectAllObjectsFromLivre();
         
         while (this.tableDatabase.getRowCount() > 0) {
             ((DefaultTableModel)this.tableDatabase.getModel()).removeRow(0);
         }
-        
-        int nbColonnes = this.gestionBaseDeDonnees.getNbColonne();
-        int nbLignes = this.gestionBaseDeDonnees.selectCountAllFromLivre();
-        System.out.println(nbColonnes);
         for (int i = 0; i < alLivres.size(); i++) {
-            Object[] ligne = new Object[nbColonnes+1];
-            /*for (int j = 0; j <= nbColonnes; j++) {
-                ligne[j] = 
-            }*/
-            ligne[0] = alLivres.get(i).getId();
-            ligne[1] = alLivres.get(i).getTitre();
-            ligne[2] = alLivres.get(i).getAuteur();
-            ligne[3] = alLivres.get(i).getNumero();
-            ligne[4] = alLivres.get(i).getCategorie();
-            ligne[5] = "";
-            System.out.println(ligne);
-            ((DefaultTableModel)this.tableDatabase.getModel()).insertRow(i, ligne);
+            ((DefaultTableModel)this.tableDatabase.getModel()).insertRow(i, alLivres.get(i));
         }
     }
     
@@ -113,6 +102,8 @@ public class Home extends javax.swing.JFrame {
         panelData = new javax.swing.JPanel();
         scrollpaneDatabase = new javax.swing.JScrollPane();
         tableDatabase = new javax.swing.JTable();
+        panelButtonClose = new javax.swing.JPanel();
+        labelClose = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -274,6 +265,35 @@ public class Home extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        panelButtonClose.setBackground(new java.awt.Color(226, 226, 226));
+        panelButtonClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelButtonCloseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelButtonCloseMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelButtonCloseMousePressed(evt);
+            }
+        });
+
+        labelClose.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        labelClose.setForeground(new java.awt.Color(5, 7, 8));
+        labelClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelClose.setText("X");
+
+        javax.swing.GroupLayout panelButtonCloseLayout = new javax.swing.GroupLayout(panelButtonClose);
+        panelButtonClose.setLayout(panelButtonCloseLayout);
+        panelButtonCloseLayout.setHorizontalGroup(
+            panelButtonCloseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelClose, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        );
+        panelButtonCloseLayout.setVerticalGroup(
+            panelButtonCloseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelClose, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
@@ -284,11 +304,15 @@ public class Home extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
+                .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(panelData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -433,6 +457,23 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_panelButtonModifierMouseExited
 
+    private void panelButtonCloseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMousePressed
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
+        this.gestionBaseDeDonnees.fermerConnection();
+        this.dispose();
+    }//GEN-LAST:event_panelButtonCloseMousePressed
+
+    private void panelButtonCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMouseEntered
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
+    }//GEN-LAST:event_panelButtonCloseMouseEntered
+
+    private void panelButtonCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMouseExited
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_UNSELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_UNSELECTED);
+    }//GEN-LAST:event_panelButtonCloseMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -470,11 +511,13 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel labelAjouter;
+    private javax.swing.JLabel labelClose;
     private javax.swing.JLabel labelConsulter;
     private javax.swing.JLabel labelHave;
     private javax.swing.JLabel labelModifier;
     private javax.swing.JLabel labelSupprimer;
     private javax.swing.JPanel panelButtonAjouter;
+    private javax.swing.JPanel panelButtonClose;
     private javax.swing.JPanel panelButtonConsulter;
     private javax.swing.JPanel panelButtonModifier;
     private javax.swing.JPanel panelButtonSupprimer;
