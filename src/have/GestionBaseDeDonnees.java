@@ -24,6 +24,7 @@ public class GestionBaseDeDonnees {
     private static final String DB_PASSWORD = "test";
     private Connection connection;
     private Statement statement;
+    private int nbColonnes = 0;
     
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS LIVRE" +
                                                "(id int auto_increment NOT NULL PRIMARY KEY, " +
@@ -89,6 +90,8 @@ public class GestionBaseDeDonnees {
             String sqlQuery = "SELECT * FROM LIVRE;";
             ResultSet resultSet = this.statement.executeQuery(sqlQuery);
             
+            this.nbColonnes = resultSet.getMetaData().getColumnCount();
+                    
             while (resultSet.next()) {
                 Livre livre = new Livre(resultSet.getString("id"), resultSet.getString("titre"), resultSet.getString("auteur"), resultSet.getString("numero"), resultSet.getString("categorie"));
                 alLivres.add(livre);
@@ -171,6 +174,10 @@ public class GestionBaseDeDonnees {
     public void dropTableLivreAndRecreateTableLivre() {
         this.dropTableLivre();
         this.createTableLivre();
+    }
+    
+    public int getNbColonne() {
+        return this.nbColonnes;
     }
 
 }
