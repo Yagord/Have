@@ -1,5 +1,9 @@
 package have;
 
+import java.awt.Color;
+import javax.swing.JComponent;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,12 +15,78 @@ package have;
  * @author Pierre-Nicolas
  */
 public class Home extends javax.swing.JFrame {
+    private static final Color COLOR_BUTTON_UNSELECTED = new Color(24, 26, 31);
+    private static final Color COLOR_BUTTON_SELECTED = new Color(228, 228, 229);
+    private static final Color COLOR_LABEL_UNSELECTED = new Color(197, 56, 53);
+    private static final Color COLOR_LABEL_SELECTED = new Color(181, 53, 51);
+    private boolean consulterPressed;
+    private boolean ajouterPressed;
+    private boolean supprimerPressed;
+    private boolean modifierPressed;
+    private GestionBaseDeDonnees gestionBaseDeDonnees;
+    
+    private void initBooleanPressed() {
+        this.consulterPressed = false;
+        this.ajouterPressed = false;
+        this.supprimerPressed = false;
+        this.modifierPressed = false;
+    }
+    
+    private void initGestionBaseDeDonnees() {
+        this.gestionBaseDeDonnees = new GestionBaseDeDonnees();
+        this.chargerDonnees();
+    }
+    
+    private void setColor(JComponent jComponent, Color color) {
+        jComponent.setBackground(color);
+    }
+    
+    private void componentPressedChangeColor(JComponent jComponent, Color color) {
+        
+    }
 
+    private void componentEnteredChangeColor(JComponent jComponent, Color color) {
+        
+    }
+        
+    private void componentExitedChangeColor(JComponent jComponent, Color color) {
+        
+    }
+    
+    private void chargerDonnees() {
+        java.util.ArrayList<Livre> alLivres = new java.util.ArrayList();
+        alLivres = this.gestionBaseDeDonnees.selectAllFromLivre();
+        
+        while (this.tableDatabase.getRowCount() > 0) {
+            ((DefaultTableModel)this.tableDatabase.getModel()).removeRow(0);
+        }
+        
+        int nbColonnes = this.gestionBaseDeDonnees.getNbColonne();
+        int nbLignes = this.gestionBaseDeDonnees.selectCountAllFromLivre();
+        System.out.println(nbColonnes);
+        for (int i = 0; i < alLivres.size(); i++) {
+            Object[] ligne = new Object[nbColonnes+1];
+            /*for (int j = 0; j <= nbColonnes; j++) {
+                ligne[j] = 
+            }*/
+            ligne[0] = alLivres.get(i).getId();
+            ligne[1] = alLivres.get(i).getTitre();
+            ligne[2] = alLivres.get(i).getAuteur();
+            ligne[3] = alLivres.get(i).getNumero();
+            ligne[4] = alLivres.get(i).getCategorie();
+            ligne[5] = "";
+            System.out.println(ligne);
+            ((DefaultTableModel)this.tableDatabase.getModel()).insertRow(i, ligne);
+        }
+    }
+    
     /**
      * Creates new form Home
      */
     public Home() {
-        initComponents();
+        this.initComponents();
+        this.initBooleanPressed();
+        this.initGestionBaseDeDonnees();
     }
 
     /**
@@ -65,6 +135,17 @@ public class Home extends javax.swing.JFrame {
         panelPane.add(panelHave, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 180, 70));
 
         panelButtonConsulter.setBackground(new java.awt.Color(24, 26, 31));
+        panelButtonConsulter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelButtonConsulterMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelButtonConsulterMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelButtonConsulterMousePressed(evt);
+            }
+        });
         panelButtonConsulter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelConsulter.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -76,6 +157,17 @@ public class Home extends javax.swing.JFrame {
         panelPane.add(panelButtonConsulter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 280, 40));
 
         panelButtonAjouter.setBackground(new java.awt.Color(24, 26, 31));
+        panelButtonAjouter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelButtonAjouterMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelButtonAjouterMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelButtonAjouterMousePressed(evt);
+            }
+        });
         panelButtonAjouter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelAjouter.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -87,6 +179,17 @@ public class Home extends javax.swing.JFrame {
         panelPane.add(panelButtonAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 280, 40));
 
         panelButtonSupprimer.setBackground(new java.awt.Color(24, 26, 31));
+        panelButtonSupprimer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelButtonSupprimerMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelButtonSupprimerMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelButtonSupprimerMousePressed(evt);
+            }
+        });
         panelButtonSupprimer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelSupprimer.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -98,6 +201,17 @@ public class Home extends javax.swing.JFrame {
         panelPane.add(panelButtonSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 280, 40));
 
         panelButtonModifier.setBackground(new java.awt.Color(24, 26, 31));
+        panelButtonModifier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelButtonModifierMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelButtonModifierMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelButtonModifierMousePressed(evt);
+            }
+        });
         panelButtonModifier.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelModifier.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -112,16 +226,40 @@ public class Home extends javax.swing.JFrame {
 
         tableDatabase.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Titre", "Auteur", "Numero", "Categorie", "Emplacement"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableDatabase.getTableHeader().setReorderingAllowed(false);
         scrollpaneDatabase.setViewportView(tableDatabase);
+        if (tableDatabase.getColumnModel().getColumnCount() > 0) {
+            tableDatabase.getColumnModel().getColumn(0).setResizable(false);
+            tableDatabase.getColumnModel().getColumn(1).setResizable(false);
+            tableDatabase.getColumnModel().getColumn(2).setResizable(false);
+            tableDatabase.getColumnModel().getColumn(3).setResizable(false);
+            tableDatabase.getColumnModel().getColumn(4).setResizable(false);
+            tableDatabase.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         javax.swing.GroupLayout panelDataLayout = new javax.swing.GroupLayout(panelData);
         panelData.setLayout(panelDataLayout);
@@ -170,6 +308,130 @@ public class Home extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void panelButtonConsulterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMousePressed
+        this.consulterPressed = true;
+        this.ajouterPressed = false;
+        this.supprimerPressed = false;
+        this.modifierPressed = false;
+        
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+    }//GEN-LAST:event_panelButtonConsulterMousePressed
+
+    private void panelButtonConsulterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseEntered
+        if (!this.consulterPressed) {
+            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
+        }
+    }//GEN-LAST:event_panelButtonConsulterMouseEntered
+
+    private void panelButtonConsulterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseExited
+        if (!this.consulterPressed) {
+            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelButtonConsulterMouseExited
+
+    private void panelButtonAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMousePressed
+        this.consulterPressed = false;
+        this.ajouterPressed = true;
+        this.supprimerPressed = false;
+        this.modifierPressed = false;
+        
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+    }//GEN-LAST:event_panelButtonAjouterMousePressed
+
+    private void panelButtonAjouterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseEntered
+        if (!this.ajouterPressed) {
+            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
+        }
+    }//GEN-LAST:event_panelButtonAjouterMouseEntered
+
+    private void panelButtonAjouterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseExited
+        if (!this.ajouterPressed) {
+            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelButtonAjouterMouseExited
+
+    private void panelButtonSupprimerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMousePressed
+        this.consulterPressed = false;
+        this.ajouterPressed = false;
+        this.supprimerPressed = true;
+        this.modifierPressed = false;
+        
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+    }//GEN-LAST:event_panelButtonSupprimerMousePressed
+
+    private void panelButtonSupprimerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseEntered
+        if (!this.supprimerPressed) {
+            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
+        }
+    }//GEN-LAST:event_panelButtonSupprimerMouseEntered
+
+    private void panelButtonSupprimerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseExited
+        if (!this.supprimerPressed) {
+            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelButtonSupprimerMouseExited
+
+    private void panelButtonModifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMousePressed
+        this.consulterPressed = false;
+        this.ajouterPressed = false;
+        this.supprimerPressed = false;
+        this.modifierPressed = true;
+        
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
+        
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
+    }//GEN-LAST:event_panelButtonModifierMousePressed
+
+    private void panelButtonModifierMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseEntered
+        if (!this.modifierPressed) {
+            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
+        }
+    }//GEN-LAST:event_panelButtonModifierMouseEntered
+
+    private void panelButtonModifierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseExited
+        if (!this.modifierPressed) {
+            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelButtonModifierMouseExited
 
     /**
      * @param args the command line arguments
