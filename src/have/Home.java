@@ -2,6 +2,8 @@ package have;
 
 import java.awt.Color;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -23,10 +25,19 @@ public class Home extends javax.swing.JFrame {
     private static final Color COLOR_BUTTON_CLOSE_SELECTED = new Color(232, 17, 35);
     private static final Color COLOR_LABEL_CLOSE_UNSELECTED = new Color(5, 7, 8);
     private static final Color COLOR_LABEL_CLOSE_SELECTED = new Color(255, 255, 255);
+    private static final Color COLOR_SEPARATOR_UNSELECTED = new Color(197, 56, 53);
+    private static final Color COLOR_SEPARATOR_SELECTED = new Color(228, 228, 229);
+    private static final Color COLOR_BUTTON_DATA_UNSELECTED = new Color(203, 65, 62);
+    private static final Color COLOR_BUTTON_DATA_SELECTED = new Color(197, 56, 53);
+    private static final Color COLOR_LABEL_DATA_UNSELECTED = new Color(233, 233, 233);
+    private static final Color COLOR_LABEL_DATA_SELECTED = new Color(251, 205, 63);
     private boolean consulterPressed;
     private boolean ajouterPressed;
     private boolean supprimerPressed;
     private boolean modifierPressed;
+    private boolean ajouterDataPressed;
+    private boolean supprimerDataPressed;
+    private boolean modifierDataPressed;
     private GestionBaseDeDonnees gestionBaseDeDonnees;
     private int posX;
     private int posY;
@@ -36,6 +47,9 @@ public class Home extends javax.swing.JFrame {
         this.ajouterPressed = false;
         this.supprimerPressed = false;
         this.modifierPressed = false;
+        this.ajouterDataPressed = false;
+        this.supprimerDataPressed = false;
+        this.modifierDataPressed = false;
     }
     
     private void initGestionBaseDeDonnees() {
@@ -75,8 +89,12 @@ public class Home extends javax.swing.JFrame {
         this.panelModifier.setVisible(true);
     }
     
-    private void setColor(JComponent jComponent, Color color) {
-        jComponent.setBackground(color);
+    private void setColor(JPanel jPanel, Color color) {
+        jPanel.setBackground(color);
+    }
+    
+    private void setColor(JLabel jLabel, Color color) {
+        jLabel.setForeground(color);
     }
     
     private void componentPressedChangeColor(JComponent jComponent, Color color) {
@@ -124,16 +142,21 @@ public class Home extends javax.swing.JFrame {
 
         panelMain = new javax.swing.JPanel();
         panelPane = new javax.swing.JPanel();
+        panelSeparator = new javax.swing.JPanel();
         panelHave = new javax.swing.JPanel();
         labelHave = new javax.swing.JLabel();
         panelButtonConsulter = new javax.swing.JPanel();
         labelConsulter = new javax.swing.JLabel();
+        panelHideSeparatorConsulter = new javax.swing.JPanel();
         panelButtonAjouter = new javax.swing.JPanel();
         labelAjouter = new javax.swing.JLabel();
+        panelHideSeparatorAjouter = new javax.swing.JPanel();
         panelButtonSupprimer = new javax.swing.JPanel();
         labelSupprimer = new javax.swing.JLabel();
+        panelHideSeparatorSupprimer = new javax.swing.JPanel();
         panelButtonModifier = new javax.swing.JPanel();
         labelModifier = new javax.swing.JLabel();
+        panelHideSeparatorModifier = new javax.swing.JPanel();
         panelData = new javax.swing.JPanel();
         panelConsulter = new javax.swing.JPanel();
         scrollpaneDatabase = new javax.swing.JScrollPane();
@@ -148,19 +171,19 @@ public class Home extends javax.swing.JFrame {
         panelButtonClose = new javax.swing.JPanel();
         labelClose = new javax.swing.JLabel();
         panelBar = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        panelImage = new javax.swing.JPanel();
+        panelAjouterUnLivre = new javax.swing.JPanel();
+        labelAjouterUnLivre = new javax.swing.JLabel();
+        panelSupprimerUnLivre = new javax.swing.JPanel();
+        labelSupprimerUnLivre = new javax.swing.JLabel();
+        panelModifierUnLivre = new javax.swing.JPanel();
+        labelModifierUnLivre = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setUndecorated(true);
 
-        panelMain.setBackground(new java.awt.Color(226, 226, 226));
+        panelMain.setBackground(new java.awt.Color(24, 26, 31));
         panelMain.setPreferredSize(new java.awt.Dimension(1200, 650));
         panelMain.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -175,6 +198,22 @@ public class Home extends javax.swing.JFrame {
 
         panelPane.setBackground(new java.awt.Color(24, 26, 31));
         panelPane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelSeparator.setBackground(new java.awt.Color(197, 56, 53));
+        panelSeparator.setPreferredSize(new java.awt.Dimension(5, 650));
+
+        javax.swing.GroupLayout panelSeparatorLayout = new javax.swing.GroupLayout(panelSeparator);
+        panelSeparator.setLayout(panelSeparatorLayout);
+        panelSeparatorLayout.setHorizontalGroup(
+            panelSeparatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelSeparatorLayout.setVerticalGroup(
+            panelSeparatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 650, Short.MAX_VALUE)
+        );
+
+        panelPane.add(panelSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 0, 5, 650));
 
         panelHave.setBackground(new java.awt.Color(24, 26, 31));
         panelHave.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -207,6 +246,21 @@ public class Home extends javax.swing.JFrame {
         labelConsulter.setText("Consulter");
         panelButtonConsulter.add(labelConsulter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        panelHideSeparatorConsulter.setBackground(new java.awt.Color(197, 56, 53));
+
+        javax.swing.GroupLayout panelHideSeparatorConsulterLayout = new javax.swing.GroupLayout(panelHideSeparatorConsulter);
+        panelHideSeparatorConsulter.setLayout(panelHideSeparatorConsulterLayout);
+        panelHideSeparatorConsulterLayout.setHorizontalGroup(
+            panelHideSeparatorConsulterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+        panelHideSeparatorConsulterLayout.setVerticalGroup(
+            panelHideSeparatorConsulterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        panelButtonConsulter.add(panelHideSeparatorConsulter, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 0, -1, -1));
+
         panelPane.add(panelButtonConsulter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 280, 40));
 
         panelButtonAjouter.setBackground(new java.awt.Color(24, 26, 31));
@@ -228,6 +282,21 @@ public class Home extends javax.swing.JFrame {
         labelAjouter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelAjouter.setText("Ajouter");
         panelButtonAjouter.add(labelAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        panelHideSeparatorAjouter.setBackground(new java.awt.Color(197, 56, 53));
+
+        javax.swing.GroupLayout panelHideSeparatorAjouterLayout = new javax.swing.GroupLayout(panelHideSeparatorAjouter);
+        panelHideSeparatorAjouter.setLayout(panelHideSeparatorAjouterLayout);
+        panelHideSeparatorAjouterLayout.setHorizontalGroup(
+            panelHideSeparatorAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+        panelHideSeparatorAjouterLayout.setVerticalGroup(
+            panelHideSeparatorAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        panelButtonAjouter.add(panelHideSeparatorAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 0, -1, -1));
 
         panelPane.add(panelButtonAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 280, 40));
 
@@ -251,6 +320,21 @@ public class Home extends javax.swing.JFrame {
         labelSupprimer.setText("Supprimer");
         panelButtonSupprimer.add(labelSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        panelHideSeparatorSupprimer.setBackground(new java.awt.Color(197, 56, 53));
+
+        javax.swing.GroupLayout panelHideSeparatorSupprimerLayout = new javax.swing.GroupLayout(panelHideSeparatorSupprimer);
+        panelHideSeparatorSupprimer.setLayout(panelHideSeparatorSupprimerLayout);
+        panelHideSeparatorSupprimerLayout.setHorizontalGroup(
+            panelHideSeparatorSupprimerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+        panelHideSeparatorSupprimerLayout.setVerticalGroup(
+            panelHideSeparatorSupprimerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        panelButtonSupprimer.add(panelHideSeparatorSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 0, -1, -1));
+
         panelPane.add(panelButtonSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 280, 40));
 
         panelButtonModifier.setBackground(new java.awt.Color(24, 26, 31));
@@ -272,6 +356,21 @@ public class Home extends javax.swing.JFrame {
         labelModifier.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelModifier.setText("Modifier");
         panelButtonModifier.add(labelModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        panelHideSeparatorModifier.setBackground(new java.awt.Color(197, 56, 53));
+
+        javax.swing.GroupLayout panelHideSeparatorModifierLayout = new javax.swing.GroupLayout(panelHideSeparatorModifier);
+        panelHideSeparatorModifier.setLayout(panelHideSeparatorModifierLayout);
+        panelHideSeparatorModifierLayout.setHorizontalGroup(
+            panelHideSeparatorModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+        panelHideSeparatorModifierLayout.setVerticalGroup(
+            panelHideSeparatorModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        panelButtonModifier.add(panelHideSeparatorModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 0, -1, -1));
 
         panelPane.add(panelButtonModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 280, 40));
 
@@ -447,69 +546,102 @@ public class Home extends javax.swing.JFrame {
             .addGap(0, 8, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelImageLayout = new javax.swing.GroupLayout(panelImage);
+        panelImage.setLayout(panelImageLayout);
+        panelImageLayout.setHorizontalGroup(
+            panelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelImageLayout.setVerticalGroup(
+            panelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 247, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(24, 26, 31));
+        panelAjouterUnLivre.setBackground(new java.awt.Color(203, 65, 62));
+        panelAjouterUnLivre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelAjouterUnLivreMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelAjouterUnLivreMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelAjouterUnLivreMousePressed(evt);
+            }
+        });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(197, 56, 53));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Ajouter un livre");
+        labelAjouterUnLivre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelAjouterUnLivre.setForeground(new java.awt.Color(233, 233, 233));
+        labelAjouterUnLivre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelAjouterUnLivre.setText("Ajouter un livre");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelAjouterUnLivreLayout = new javax.swing.GroupLayout(panelAjouterUnLivre);
+        panelAjouterUnLivre.setLayout(panelAjouterUnLivreLayout);
+        panelAjouterUnLivreLayout.setHorizontalGroup(
+            panelAjouterUnLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelAjouterUnLivre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-        );
-
-        jPanel3.setBackground(new java.awt.Color(24, 26, 31));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(197, 56, 53));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Modifier un livre");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+        panelAjouterUnLivreLayout.setVerticalGroup(
+            panelAjouterUnLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelAjouterUnLivre, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
         );
 
-        jPanel4.setBackground(new java.awt.Color(24, 26, 31));
+        panelSupprimerUnLivre.setBackground(new java.awt.Color(203, 65, 62));
+        panelSupprimerUnLivre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelSupprimerUnLivreMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelSupprimerUnLivreMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelSupprimerUnLivreMousePressed(evt);
+            }
+        });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(197, 56, 53));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Supprimer un livre");
+        labelSupprimerUnLivre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelSupprimerUnLivre.setForeground(new java.awt.Color(233, 233, 233));
+        labelSupprimerUnLivre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelSupprimerUnLivre.setText("Supprimer un livre");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelSupprimerUnLivreLayout = new javax.swing.GroupLayout(panelSupprimerUnLivre);
+        panelSupprimerUnLivre.setLayout(panelSupprimerUnLivreLayout);
+        panelSupprimerUnLivreLayout.setHorizontalGroup(
+            panelSupprimerUnLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelSupprimerUnLivre, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+        panelSupprimerUnLivreLayout.setVerticalGroup(
+            panelSupprimerUnLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelSupprimerUnLivre, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+        );
+
+        panelModifierUnLivre.setBackground(new java.awt.Color(203, 65, 62));
+        panelModifierUnLivre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelModifierUnLivreMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelModifierUnLivreMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelModifierUnLivreMousePressed(evt);
+            }
+        });
+
+        labelModifierUnLivre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelModifierUnLivre.setForeground(new java.awt.Color(233, 233, 233));
+        labelModifierUnLivre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelModifierUnLivre.setText("Modifier un livre");
+
+        javax.swing.GroupLayout panelModifierUnLivreLayout = new javax.swing.GroupLayout(panelModifierUnLivre);
+        panelModifierUnLivre.setLayout(panelModifierUnLivreLayout);
+        panelModifierUnLivreLayout.setHorizontalGroup(
+            panelModifierUnLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelModifierUnLivre, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+        );
+        panelModifierUnLivreLayout.setVerticalGroup(
+            panelModifierUnLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelModifierUnLivre, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -520,10 +652,10 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(panelPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelAjouterUnLivre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelModifierUnLivre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelSupprimerUnLivre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
@@ -537,22 +669,25 @@ public class Home extends javax.swing.JFrame {
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPane, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(panelMainLayout.createSequentialGroup()
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(101, 101, 101)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(panelPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(101, 101, 101)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(panelImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(panelAjouterUnLivre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(panelSupprimerUnLivre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(panelModifierUnLivre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         panelData.getAccessibleContext().setAccessibleName("");
@@ -615,7 +750,12 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
         this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
         this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
-
+        
+        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_SELECTED);
+        
         this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
         this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
         this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
@@ -626,6 +766,7 @@ public class Home extends javax.swing.JFrame {
         if (!this.modifierPressed) {
             this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
             this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+            this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
         }
     }//GEN-LAST:event_panelButtonModifierMouseExited
 
@@ -633,6 +774,7 @@ public class Home extends javax.swing.JFrame {
         if (!this.modifierPressed) {
             this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
             this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
+            this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_SELECTED);
         }
     }//GEN-LAST:event_panelButtonModifierMouseEntered
 
@@ -648,6 +790,11 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
         this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
         this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_SELECTED);
+        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
 
         this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
         this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
@@ -659,6 +806,7 @@ public class Home extends javax.swing.JFrame {
         if (!this.supprimerPressed) {
             this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
             this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+            this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
         }
     }//GEN-LAST:event_panelButtonSupprimerMouseExited
 
@@ -666,6 +814,7 @@ public class Home extends javax.swing.JFrame {
         if (!this.supprimerPressed) {
             this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
             this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
+            this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_SELECTED);
         }
     }//GEN-LAST:event_panelButtonSupprimerMouseEntered
 
@@ -681,6 +830,11 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
         this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
         this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_SELECTED);
+        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
 
         this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
         this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
@@ -692,6 +846,7 @@ public class Home extends javax.swing.JFrame {
         if (!this.ajouterPressed) {
             this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
             this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+            this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
         }
     }//GEN-LAST:event_panelButtonAjouterMouseExited
 
@@ -699,6 +854,7 @@ public class Home extends javax.swing.JFrame {
         if (!this.ajouterPressed) {
             this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
             this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
+            this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_SELECTED);
         }
     }//GEN-LAST:event_panelButtonAjouterMouseEntered
 
@@ -716,6 +872,11 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
         this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
         this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_SELECTED);
+        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
 
         this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
         this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
@@ -727,6 +888,7 @@ public class Home extends javax.swing.JFrame {
         if (!this.consulterPressed) {
             this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
             this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+            this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
         }
     }//GEN-LAST:event_panelButtonConsulterMouseExited
 
@@ -734,8 +896,94 @@ public class Home extends javax.swing.JFrame {
         if (!this.consulterPressed) {
             this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
             this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
+            this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_SELECTED);
         }
     }//GEN-LAST:event_panelButtonConsulterMouseEntered
+
+    private void panelAjouterUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterUnLivreMousePressed
+        this.ajouterDataPressed = true;
+        this.supprimerDataPressed = false;
+        this.modifierDataPressed = false;
+        
+        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        
+        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+    }//GEN-LAST:event_panelAjouterUnLivreMousePressed
+
+    private void panelAjouterUnLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterUnLivreMouseEntered
+        if (!this.ajouterDataPressed) {
+            this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+            this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+        }
+    }//GEN-LAST:event_panelAjouterUnLivreMouseEntered
+
+    private void panelAjouterUnLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterUnLivreMouseExited
+        if (!this.ajouterDataPressed) {
+            this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+            this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelAjouterUnLivreMouseExited
+
+    private void panelSupprimerUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerUnLivreMousePressed
+        this.ajouterDataPressed = false;
+        this.supprimerDataPressed = true;
+        this.modifierDataPressed = false;
+        
+        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        
+        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+    }//GEN-LAST:event_panelSupprimerUnLivreMousePressed
+
+    private void panelSupprimerUnLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerUnLivreMouseEntered
+        if (!this.supprimerDataPressed) {
+            this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+            this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED); 
+        }
+    }//GEN-LAST:event_panelSupprimerUnLivreMouseEntered
+
+    private void panelSupprimerUnLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerUnLivreMouseExited
+        if (!this.supprimerDataPressed) {
+            this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+            this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED); 
+        }
+    }//GEN-LAST:event_panelSupprimerUnLivreMouseExited
+
+    private void panelModifierUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierUnLivreMousePressed
+        this.ajouterDataPressed = false;
+        this.supprimerDataPressed = false;
+        this.modifierDataPressed = true;
+        
+        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        
+        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+    }//GEN-LAST:event_panelModifierUnLivreMousePressed
+
+    private void panelModifierUnLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierUnLivreMouseEntered
+        if (!this.modifierDataPressed) {
+            this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+            this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);    
+        }
+    }//GEN-LAST:event_panelModifierUnLivreMouseEntered
+
+    private void panelModifierUnLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierUnLivreMouseExited
+        if (!this.modifierDataPressed) {
+            this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+            this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);            
+        }
+       
+    }//GEN-LAST:event_panelModifierUnLivreMouseExited
 
     /**
      * @param args the command line arguments
@@ -777,20 +1025,17 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel labelAjouter;
+    private javax.swing.JLabel labelAjouterUnLivre;
     private javax.swing.JLabel labelClose;
     private javax.swing.JLabel labelConsulter;
     private javax.swing.JLabel labelHave;
     private javax.swing.JLabel labelModifier;
+    private javax.swing.JLabel labelModifierUnLivre;
     private javax.swing.JLabel labelSupprimer;
+    private javax.swing.JLabel labelSupprimerUnLivre;
     private javax.swing.JPanel panelAjouter;
+    private javax.swing.JPanel panelAjouterUnLivre;
     private javax.swing.JPanel panelBar;
     private javax.swing.JPanel panelButtonAjouter;
     private javax.swing.JPanel panelButtonClose;
@@ -800,10 +1045,18 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel panelConsulter;
     private javax.swing.JPanel panelData;
     private javax.swing.JPanel panelHave;
+    private javax.swing.JPanel panelHideSeparatorAjouter;
+    private javax.swing.JPanel panelHideSeparatorConsulter;
+    private javax.swing.JPanel panelHideSeparatorModifier;
+    private javax.swing.JPanel panelHideSeparatorSupprimer;
+    private javax.swing.JPanel panelImage;
     private javax.swing.JPanel panelMain;
     private javax.swing.JPanel panelModifier;
+    private javax.swing.JPanel panelModifierUnLivre;
     private javax.swing.JPanel panelPane;
+    private javax.swing.JPanel panelSeparator;
     private javax.swing.JPanel panelSupprimer;
+    private javax.swing.JPanel panelSupprimerUnLivre;
     private javax.swing.JScrollPane scrollpaneDatabase;
     private javax.swing.JTable tableDatabase;
     // End of variables declaration//GEN-END:variables
