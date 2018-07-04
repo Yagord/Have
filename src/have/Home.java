@@ -43,6 +43,38 @@ public class Home extends javax.swing.JFrame {
         this.chargerDonnees();
     }
     
+    private void initAffichageConsulter() {
+        this.afficherConsulter();
+    }
+    
+    private void afficherConsulter() {
+        this.panelConsulter.setVisible(true);
+        this.panelAjouter.setVisible(false);
+        this.panelSupprimer.setVisible(false);
+        this.panelModifier.setVisible(false);
+    }
+    
+    private void afficherAjouter() {
+        this.panelConsulter.setVisible(false);
+        this.panelAjouter.setVisible(true);
+        this.panelSupprimer.setVisible(false);
+        this.panelModifier.setVisible(false);
+    }
+    
+    private void afficherSupprimer() {
+        this.panelConsulter.setVisible(false);
+        this.panelAjouter.setVisible(false);
+        this.panelSupprimer.setVisible(true);
+        this.panelModifier.setVisible(false);
+    }
+        
+    private void afficherModifier() {
+        this.panelConsulter.setVisible(false);
+        this.panelAjouter.setVisible(false);
+        this.panelSupprimer.setVisible(false);
+        this.panelModifier.setVisible(true);
+    }
+    
     private void setColor(JComponent jComponent, Color color) {
         jComponent.setBackground(color);
     }
@@ -78,6 +110,7 @@ public class Home extends javax.swing.JFrame {
         this.initComponents();
         this.initBooleanPressed();
         this.initGestionBaseDeDonnees();
+        this.initAffichageConsulter();
     }
 
     /**
@@ -102,17 +135,23 @@ public class Home extends javax.swing.JFrame {
         panelButtonModifier = new javax.swing.JPanel();
         labelModifier = new javax.swing.JLabel();
         panelData = new javax.swing.JPanel();
+        panelConsulter = new javax.swing.JPanel();
         scrollpaneDatabase = new javax.swing.JScrollPane();
         tableDatabase = new javax.swing.JTable();
+        panelAjouter = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        panelSupprimer = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        panelModifier = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         panelButtonClose = new javax.swing.JPanel();
         labelClose = new javax.swing.JLabel();
         panelBar = new javax.swing.JPanel();
-        labelHaveLogo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(987, 577));
 
         panelMain.setBackground(new java.awt.Color(226, 226, 226));
         panelMain.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -229,9 +268,13 @@ public class Home extends javax.swing.JFrame {
         panelPane.add(panelButtonModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 280, 40));
 
         panelData.setBackground(new java.awt.Color(242, 244, 247));
+        panelData.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelConsulter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         scrollpaneDatabase.setBorder(null);
         scrollpaneDatabase.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        scrollpaneDatabase.setPreferredSize(new java.awt.Dimension(600, 500));
 
         tableDatabase.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableDatabase.setModel(new javax.swing.table.DefaultTableModel(
@@ -269,16 +312,81 @@ public class Home extends javax.swing.JFrame {
             tableDatabase.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        javax.swing.GroupLayout panelDataLayout = new javax.swing.GroupLayout(panelData);
-        panelData.setLayout(panelDataLayout);
-        panelDataLayout.setHorizontalGroup(
-            panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollpaneDatabase, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+        panelConsulter.add(scrollpaneDatabase, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 500));
+
+        panelData.add(panelConsulter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 500));
+
+        jLabel1.setText("Ajout");
+
+        jButton1.setText("jButton1");
+
+        javax.swing.GroupLayout panelAjouterLayout = new javax.swing.GroupLayout(panelAjouter);
+        panelAjouter.setLayout(panelAjouterLayout);
+        panelAjouterLayout.setHorizontalGroup(
+            panelAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAjouterLayout.createSequentialGroup()
+                .addGroup(panelAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAjouterLayout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel1))
+                    .addGroup(panelAjouterLayout.createSequentialGroup()
+                        .addGap(201, 201, 201)
+                        .addComponent(jButton1)))
+                .addContainerGap(326, Short.MAX_VALUE))
         );
-        panelDataLayout.setVerticalGroup(
-            panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollpaneDatabase)
+        panelAjouterLayout.setVerticalGroup(
+            panelAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAjouterLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel1)
+                .addGap(82, 82, 82)
+                .addComponent(jButton1)
+                .addContainerGap(344, Short.MAX_VALUE))
         );
+
+        panelData.add(panelAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 500));
+
+        jLabel3.setText("Supprimer");
+
+        javax.swing.GroupLayout panelSupprimerLayout = new javax.swing.GroupLayout(panelSupprimer);
+        panelSupprimer.setLayout(panelSupprimerLayout);
+        panelSupprimerLayout.setHorizontalGroup(
+            panelSupprimerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSupprimerLayout.createSequentialGroup()
+                .addGap(143, 143, 143)
+                .addComponent(jLabel3)
+                .addContainerGap(409, Short.MAX_VALUE))
+        );
+        panelSupprimerLayout.setVerticalGroup(
+            panelSupprimerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSupprimerLayout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(jLabel3)
+                .addContainerGap(409, Short.MAX_VALUE))
+        );
+
+        panelData.add(panelSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jLabel2.setText("Modifier");
+
+        javax.swing.GroupLayout panelModifierLayout = new javax.swing.GroupLayout(panelModifier);
+        panelModifier.setLayout(panelModifierLayout);
+        panelModifierLayout.setHorizontalGroup(
+            panelModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelModifierLayout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addComponent(jLabel2)
+                .addContainerGap(449, Short.MAX_VALUE))
+        );
+        panelModifierLayout.setVerticalGroup(
+            panelModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelModifierLayout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addComponent(jLabel2)
+                .addContainerGap(410, Short.MAX_VALUE))
+        );
+
+        panelData.add(panelModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         panelButtonClose.setBackground(new java.awt.Color(226, 226, 226));
         panelButtonClose.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -322,41 +430,31 @@ public class Home extends javax.swing.JFrame {
             .addGap(0, 8, Short.MAX_VALUE)
         );
 
-        labelHaveLogo.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
-        labelHaveLogo.setForeground(new java.awt.Color(197, 56, 53));
-        labelHaveLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelHaveLogo.setText("HAVE");
-
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
                 .addComponent(panelPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelHaveLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(193, 193, 193)
-                .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
+                        .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGap(245, 245, 245)
+                        .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+            .addGroup(panelMainLayout.createSequentialGroup()
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelHaveLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(panelData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(50, 50, 50))
+                    .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(panelPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -374,7 +472,9 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelButtonConsulterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMousePressed
-
+        this.chargerDonnees();
+        
+        this.afficherConsulter();
         
         this.consulterPressed = true;
         this.ajouterPressed = false;
@@ -407,6 +507,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonConsulterMouseExited
 
     private void panelButtonAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMousePressed
+        this.afficherAjouter();
+        
         this.consulterPressed = false;
         this.ajouterPressed = true;
         this.supprimerPressed = false;
@@ -438,6 +540,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonAjouterMouseExited
 
     private void panelButtonSupprimerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMousePressed
+        this.afficherSupprimer();
+        
         this.consulterPressed = false;
         this.ajouterPressed = false;
         this.supprimerPressed = true;
@@ -469,6 +573,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonSupprimerMouseExited
 
     private void panelButtonModifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMousePressed
+        this.afficherModifier();
         this.consulterPressed = false;
         this.ajouterPressed = false;
         this.supprimerPressed = false;
@@ -565,23 +670,30 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel labelAjouter;
     private javax.swing.JLabel labelClose;
     private javax.swing.JLabel labelConsulter;
     private javax.swing.JLabel labelHave;
-    private javax.swing.JLabel labelHaveLogo;
     private javax.swing.JLabel labelModifier;
     private javax.swing.JLabel labelSupprimer;
+    private javax.swing.JPanel panelAjouter;
     private javax.swing.JPanel panelBar;
     private javax.swing.JPanel panelButtonAjouter;
     private javax.swing.JPanel panelButtonClose;
     private javax.swing.JPanel panelButtonConsulter;
     private javax.swing.JPanel panelButtonModifier;
     private javax.swing.JPanel panelButtonSupprimer;
+    private javax.swing.JPanel panelConsulter;
     private javax.swing.JPanel panelData;
     private javax.swing.JPanel panelHave;
     private javax.swing.JPanel panelMain;
+    private javax.swing.JPanel panelModifier;
     private javax.swing.JPanel panelPane;
+    private javax.swing.JPanel panelSupprimer;
     private javax.swing.JScrollPane scrollpaneDatabase;
     private javax.swing.JTable tableDatabase;
     // End of variables declaration//GEN-END:variables
