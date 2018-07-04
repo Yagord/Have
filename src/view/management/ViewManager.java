@@ -9,6 +9,6 @@ package view.management;
  *
  * @author Pierre-Nicolas
  */
-public class ViewManagerk {
+public class ViewManager {
     
 }
