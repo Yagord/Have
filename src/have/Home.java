@@ -148,12 +148,20 @@ public class Home extends javax.swing.JFrame {
         panelButtonClose = new javax.swing.JPanel();
         labelClose = new javax.swing.JLabel();
         panelBar = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setUndecorated(true);
 
         panelMain.setBackground(new java.awt.Color(226, 226, 226));
+        panelMain.setPreferredSize(new java.awt.Dimension(1200, 650));
         panelMain.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 panelMainMouseDragged(evt);
@@ -268,13 +276,16 @@ public class Home extends javax.swing.JFrame {
         panelPane.add(panelButtonModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 280, 40));
 
         panelData.setBackground(new java.awt.Color(242, 244, 247));
+        panelData.setMinimumSize(new java.awt.Dimension(600, 500));
+        panelData.setPreferredSize(new java.awt.Dimension(650, 525));
         panelData.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        panelConsulter.setPreferredSize(new java.awt.Dimension(650, 525));
         panelConsulter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         scrollpaneDatabase.setBorder(null);
         scrollpaneDatabase.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        scrollpaneDatabase.setPreferredSize(new java.awt.Dimension(600, 500));
+        scrollpaneDatabase.setPreferredSize(new java.awt.Dimension(650, 525));
 
         tableDatabase.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableDatabase.setModel(new javax.swing.table.DefaultTableModel(
@@ -312,9 +323,11 @@ public class Home extends javax.swing.JFrame {
             tableDatabase.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        panelConsulter.add(scrollpaneDatabase, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 500));
+        panelConsulter.add(scrollpaneDatabase, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 525));
 
-        panelData.add(panelConsulter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 500));
+        panelData.add(panelConsulter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 520));
+
+        panelAjouter.setPreferredSize(new java.awt.Dimension(650, 525));
 
         jLabel1.setText("Ajout");
 
@@ -346,6 +359,8 @@ public class Home extends javax.swing.JFrame {
 
         panelData.add(panelAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 500));
 
+        panelSupprimer.setPreferredSize(new java.awt.Dimension(650, 525));
+
         jLabel3.setText("Supprimer");
 
         javax.swing.GroupLayout panelSupprimerLayout = new javax.swing.GroupLayout(panelSupprimer);
@@ -355,17 +370,19 @@ public class Home extends javax.swing.JFrame {
             .addGroup(panelSupprimerLayout.createSequentialGroup()
                 .addGap(143, 143, 143)
                 .addComponent(jLabel3)
-                .addContainerGap(409, Short.MAX_VALUE))
+                .addContainerGap(459, Short.MAX_VALUE))
         );
         panelSupprimerLayout.setVerticalGroup(
             panelSupprimerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSupprimerLayout.createSequentialGroup()
                 .addGap(77, 77, 77)
                 .addComponent(jLabel3)
-                .addContainerGap(409, Short.MAX_VALUE))
+                .addContainerGap(434, Short.MAX_VALUE))
         );
 
         panelData.add(panelSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        panelModifier.setPreferredSize(new java.awt.Dimension(650, 525));
 
         jLabel2.setText("Modifier");
 
@@ -376,14 +393,14 @@ public class Home extends javax.swing.JFrame {
             .addGroup(panelModifierLayout.createSequentialGroup()
                 .addGap(113, 113, 113)
                 .addComponent(jLabel2)
-                .addContainerGap(449, Short.MAX_VALUE))
+                .addContainerGap(499, Short.MAX_VALUE))
         );
         panelModifierLayout.setVerticalGroup(
             panelModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelModifierLayout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addComponent(jLabel2)
-                .addContainerGap(410, Short.MAX_VALUE))
+                .addContainerGap(435, Short.MAX_VALUE))
         );
 
         panelData.add(panelModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -430,196 +447,132 @@ public class Home extends javax.swing.JFrame {
             .addGap(0, 8, Short.MAX_VALUE)
         );
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 247, Short.MAX_VALUE)
+        );
+
+        jPanel2.setBackground(new java.awt.Color(24, 26, 31));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(197, 56, 53));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Ajouter un livre");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+        );
+
+        jPanel3.setBackground(new java.awt.Color(24, 26, 31));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(197, 56, 53));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Modifier un livre");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+        );
+
+        jPanel4.setBackground(new java.awt.Color(24, 26, 31));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(197, 56, 53));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Supprimer un livre");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainLayout.createSequentialGroup()
                 .addComponent(panelPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
-                        .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGap(245, 245, 245)
                         .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(402, 402, 402)
+                        .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelPane, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(panelMainLayout.createSequentialGroup()
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(panelPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(101, 101, 101)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
+
+        panelData.getAccessibleContext().setAccessibleName("");
+        panelData.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, 1202, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void panelButtonConsulterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMousePressed
-        this.chargerDonnees();
-        
-        this.afficherConsulter();
-        
-        this.consulterPressed = true;
-        this.ajouterPressed = false;
-        this.supprimerPressed = false;
-        this.modifierPressed = false;
-        
-        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
-        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
-        
-        this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
-        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
-    }//GEN-LAST:event_panelButtonConsulterMousePressed
-
-    private void panelButtonConsulterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseEntered
-        if (!this.consulterPressed) {
-            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
-            this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
-        }
-    }//GEN-LAST:event_panelButtonConsulterMouseEntered
-
-    private void panelButtonConsulterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseExited
-        if (!this.consulterPressed) {
-            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
-            this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
-        }
-    }//GEN-LAST:event_panelButtonConsulterMouseExited
-
-    private void panelButtonAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMousePressed
-        this.afficherAjouter();
-        
-        this.consulterPressed = false;
-        this.ajouterPressed = true;
-        this.supprimerPressed = false;
-        this.modifierPressed = false;
-        
-        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
-        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
-        
-        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
-        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
-    }//GEN-LAST:event_panelButtonAjouterMousePressed
-
-    private void panelButtonAjouterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseEntered
-        if (!this.ajouterPressed) {
-            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
-            this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
-        }
-    }//GEN-LAST:event_panelButtonAjouterMouseEntered
-
-    private void panelButtonAjouterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseExited
-        if (!this.ajouterPressed) {
-            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
-            this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
-        }
-    }//GEN-LAST:event_panelButtonAjouterMouseExited
-
-    private void panelButtonSupprimerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMousePressed
-        this.afficherSupprimer();
-        
-        this.consulterPressed = false;
-        this.ajouterPressed = false;
-        this.supprimerPressed = true;
-        this.modifierPressed = false;
-        
-        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
-        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
-        
-        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
-        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
-    }//GEN-LAST:event_panelButtonSupprimerMousePressed
-
-    private void panelButtonSupprimerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseEntered
-        if (!this.supprimerPressed) {
-            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
-            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
-        }
-    }//GEN-LAST:event_panelButtonSupprimerMouseEntered
-
-    private void panelButtonSupprimerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseExited
-        if (!this.supprimerPressed) {
-            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
-            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
-        }
-    }//GEN-LAST:event_panelButtonSupprimerMouseExited
-
-    private void panelButtonModifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMousePressed
-        this.afficherModifier();
-        this.consulterPressed = false;
-        this.ajouterPressed = false;
-        this.supprimerPressed = false;
-        this.modifierPressed = true;
-        
-        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
-        
-        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
-    }//GEN-LAST:event_panelButtonModifierMousePressed
-
-    private void panelButtonModifierMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseEntered
-        if (!this.modifierPressed) {
-            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
-            this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
-        }
-    }//GEN-LAST:event_panelButtonModifierMouseEntered
-
-    private void panelButtonModifierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseExited
-        if (!this.modifierPressed) {
-            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
-            this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
-        }
-    }//GEN-LAST:event_panelButtonModifierMouseExited
-
-    private void panelButtonCloseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMousePressed
-        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
-        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
-        this.gestionBaseDeDonnees.fermerConnection();
-        this.dispose();
-    }//GEN-LAST:event_panelButtonCloseMousePressed
-
-    private void panelButtonCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMouseEntered
-        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
-        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
-    }//GEN-LAST:event_panelButtonCloseMouseEntered
-
-    private void panelButtonCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMouseExited
-        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_UNSELECTED);
-        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_UNSELECTED);
-    }//GEN-LAST:event_panelButtonCloseMouseExited
 
     private void panelMainMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMainMousePressed
         this.posX = evt.getX();
@@ -630,9 +583,159 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         int newX = evt.getXOnScreen();
         int newY = evt.getYOnScreen();
-        
+
         this.setLocation(newX - this.posX, newY - this.posY);
     }//GEN-LAST:event_panelMainMouseDragged
+
+    private void panelButtonCloseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMousePressed
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
+        this.gestionBaseDeDonnees.fermerConnection();
+        this.dispose();
+    }//GEN-LAST:event_panelButtonCloseMousePressed
+
+    private void panelButtonCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMouseExited
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_UNSELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_UNSELECTED);
+    }//GEN-LAST:event_panelButtonCloseMouseExited
+
+    private void panelButtonCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMouseEntered
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
+    }//GEN-LAST:event_panelButtonCloseMouseEntered
+
+    private void panelButtonModifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMousePressed
+        this.afficherModifier();
+        this.consulterPressed = false;
+        this.ajouterPressed = false;
+        this.supprimerPressed = false;
+        this.modifierPressed = true;
+
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
+
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
+    }//GEN-LAST:event_panelButtonModifierMousePressed
+
+    private void panelButtonModifierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseExited
+        if (!this.modifierPressed) {
+            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelButtonModifierMouseExited
+
+    private void panelButtonModifierMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseEntered
+        if (!this.modifierPressed) {
+            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
+        }
+    }//GEN-LAST:event_panelButtonModifierMouseEntered
+
+    private void panelButtonSupprimerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMousePressed
+        this.afficherSupprimer();
+
+        this.consulterPressed = false;
+        this.ajouterPressed = false;
+        this.supprimerPressed = true;
+        this.modifierPressed = false;
+
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+    }//GEN-LAST:event_panelButtonSupprimerMousePressed
+
+    private void panelButtonSupprimerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseExited
+        if (!this.supprimerPressed) {
+            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelButtonSupprimerMouseExited
+
+    private void panelButtonSupprimerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseEntered
+        if (!this.supprimerPressed) {
+            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
+        }
+    }//GEN-LAST:event_panelButtonSupprimerMouseEntered
+
+    private void panelButtonAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMousePressed
+        this.afficherAjouter();
+
+        this.consulterPressed = false;
+        this.ajouterPressed = true;
+        this.supprimerPressed = false;
+        this.modifierPressed = false;
+
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+    }//GEN-LAST:event_panelButtonAjouterMousePressed
+
+    private void panelButtonAjouterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseExited
+        if (!this.ajouterPressed) {
+            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelButtonAjouterMouseExited
+
+    private void panelButtonAjouterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseEntered
+        if (!this.ajouterPressed) {
+            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
+        }
+    }//GEN-LAST:event_panelButtonAjouterMouseEntered
+
+    private void panelButtonConsulterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMousePressed
+        this.chargerDonnees();
+
+        this.afficherConsulter();
+
+        this.consulterPressed = true;
+        this.ajouterPressed = false;
+        this.supprimerPressed = false;
+        this.modifierPressed = false;
+
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+    }//GEN-LAST:event_panelButtonConsulterMousePressed
+
+    private void panelButtonConsulterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseExited
+        if (!this.consulterPressed) {
+            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        }
+    }//GEN-LAST:event_panelButtonConsulterMouseExited
+
+    private void panelButtonConsulterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseEntered
+        if (!this.consulterPressed) {
+            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
+        }
+    }//GEN-LAST:event_panelButtonConsulterMouseEntered
 
     /**
      * @param args the command line arguments
@@ -674,6 +777,13 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel labelAjouter;
     private javax.swing.JLabel labelClose;
     private javax.swing.JLabel labelConsulter;
