@@ -2,7 +2,6 @@ package view.home;
 
 import database.GestionBaseDeDonnees;
 import java.awt.Color;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -98,16 +97,34 @@ public class Home extends javax.swing.JFrame {
         jLabel.setForeground(color);
     }
     
-    private void componentPressedChangeColor(JComponent jComponent, Color color) {
-    
+        
+    private void chargerDonnees() {
+        java.util.ArrayList<Object[]> alLivres = new java.util.ArrayList();
+        alLivres = this.gestionBaseDeDonnees.selectAllObjectsFromLivre();
+        
+        while (this.tableDatabase.getRowCount() > 0) {
+            ((DefaultTableModel)this.tableDatabase.getModel()).removeRow(0);
+        }
+        for (int i = 0; i < alLivres.size(); i++) {
+            ((DefaultTableModel)this.tableDatabase.getModel()).insertRow(i, alLivres.get(i));
+        }
     }
 
-    private void componentEnteredChangeColor(JComponent jComponent, Color color) {
-        
-    }
-        
-    private void componentExitedChangeColor(JComponent jComponent, Color color) {
-        
+    private void panelButtonCloseMousePressed() {                                              
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
+        this.gestionBaseDeDonnees.fermerConnection();
+        this.dispose();
+    }                                             
+
+    private void panelButtonCloseMouseExited() {                                             
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_UNSELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_UNSELECTED);
+    }                                            
+
+    private void panelButtonCloseMouseEntered() {                                              
+        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
+        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
     }
     
     private void panelButtonModifierMousePressed() {
@@ -131,6 +148,22 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
         this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
         this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);        
+    }
+    
+    private void panelButtonModifierMouseEntered() {
+        if (!this.modifierPressed) {
+            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
+            this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_SELECTED);
+        }        
+    }
+    
+    private void panelButtonModifierMouseExited() {
+        if (!this.modifierPressed) {
+            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+            this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
+        }        
     }
     
     private void panelButtonSupprimerMousePressed() {
@@ -157,6 +190,22 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);        
     }
     
+    private void panelButtonSupprimerMouseEntered() {
+        if (!this.supprimerPressed) {
+            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
+            this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_SELECTED);
+        }        
+    }
+    
+    private void panelButtonSupprimerMouseExited() {
+        if (!this.supprimerPressed) {
+            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+            this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
+        }
+    }
+    
     private void panelButtonAjouterMousePressed() {
         this.afficherAjouter();
 
@@ -179,6 +228,22 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
         this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
         this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);        
+    }
+    
+    private void panelButtonAjouterMouseEntered() {
+        if (!this.ajouterPressed) {
+            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
+            this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_SELECTED);
+        }        
+    }
+    
+    private void panelButtonAjouterMouseExited() {
+        if (!this.ajouterPressed) {
+            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+            this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
+        }
     }
     
     private void panelButtonConsulterMousePressed() {
@@ -207,15 +272,110 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);        
     }
     
-    private void chargerDonnees() {
-        java.util.ArrayList<Object[]> alLivres = new java.util.ArrayList();
-        alLivres = this.gestionBaseDeDonnees.selectAllObjectsFromLivre();
+    private void panelButtonConsulterMouseEntered() {
+        if (!this.consulterPressed) {
+            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
+            this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
+            this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_SELECTED);
+        }        
+    }
+    
+    private void panelButtonConsulterMouseExited() {
+        if (!this.consulterPressed) {
+            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+            this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+            this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
+        }        
+    }
+    
+    
+    private void panelAjouterUnLivreMousePressed() {                                                 
+        this.panelButtonAjouterMousePressed();
         
-        while (this.tableDatabase.getRowCount() > 0) {
-            ((DefaultTableModel)this.tableDatabase.getModel()).removeRow(0);
+        this.ajouterDataPressed = true;
+        this.supprimerDataPressed = false;
+        this.modifierDataPressed = false;
+        
+        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        
+        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+    }                                                
+
+    private void panelAjouterUnLivreMouseEntered() {                                                 
+        if (!this.ajouterDataPressed) {
+            this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+            this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
         }
-        for (int i = 0; i < alLivres.size(); i++) {
-            ((DefaultTableModel)this.tableDatabase.getModel()).insertRow(i, alLivres.get(i));
+    }                                                
+
+    private void panelAjouterUnLivreMouseExited() {                                                
+        if (!this.ajouterDataPressed) {
+            this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+            this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        }
+    }                                               
+
+    private void panelSupprimerUnLivreMousePressed() {                                                   
+        this.panelButtonSupprimerMousePressed();
+        
+        this.ajouterDataPressed = false;
+        this.supprimerDataPressed = true;
+        this.modifierDataPressed = false;
+        
+        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        
+        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+    }                                                  
+
+    private void panelSupprimerUnLivreMouseEntered() {                                                   
+        if (!this.supprimerDataPressed) {
+            this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+            this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED); 
+        }
+    }                                                  
+
+    private void panelSupprimerUnLivreMouseExited() {                                                  
+        if (!this.supprimerDataPressed) {
+            this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+            this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED); 
+        }
+    }                                                 
+
+    private void panelModifierUnLivreMousePressed() {                                                  
+        this.panelButtonModifierMousePressed();
+        
+        this.ajouterDataPressed = false;
+        this.supprimerDataPressed = false;
+        this.modifierDataPressed = true;
+        
+        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        
+        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+    }                                                 
+
+    private void panelModifierUnLivreMouseEntered() {                                                  
+        if (!this.modifierDataPressed) {
+            this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+            this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);    
+        }
+    }                                                 
+
+    private void panelModifierUnLivreMouseExited() {                                                 
+        if (!this.modifierDataPressed) {
+            this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+            this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);            
         }
     }
     
@@ -813,28 +973,21 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelMainMousePressed
 
     private void panelMainMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMainMouseDragged
-        // TODO add your handling code here:
         int newX = evt.getXOnScreen();
         int newY = evt.getYOnScreen();
-
         this.setLocation(newX - this.posX, newY - this.posY);
     }//GEN-LAST:event_panelMainMouseDragged
 
     private void panelButtonCloseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMousePressed
-        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
-        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
-        this.gestionBaseDeDonnees.fermerConnection();
-        this.dispose();
+        this.panelButtonCloseMousePressed();
     }//GEN-LAST:event_panelButtonCloseMousePressed
 
     private void panelButtonCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMouseExited
-        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_UNSELECTED);
-        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_UNSELECTED);
+        this.panelButtonCloseMouseExited();
     }//GEN-LAST:event_panelButtonCloseMouseExited
 
     private void panelButtonCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonCloseMouseEntered
-        this.setColor(this.panelButtonClose, COLOR_BUTTON_CLOSE_SELECTED);
-        this.setColor(this.labelClose, COLOR_LABEL_CLOSE_SELECTED);
+        this.panelButtonCloseMouseEntered();
     }//GEN-LAST:event_panelButtonCloseMouseEntered
 
     private void panelButtonModifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMousePressed
@@ -842,19 +995,11 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonModifierMousePressed
 
     private void panelButtonModifierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseExited
-        if (!this.modifierPressed) {
-            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
-            this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
-            this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
-        }
+        this.panelButtonModifierMouseExited();
     }//GEN-LAST:event_panelButtonModifierMouseExited
 
     private void panelButtonModifierMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseEntered
-        if (!this.modifierPressed) {
-            this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
-            this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
-            this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_SELECTED);
-        }
+        this.panelButtonModifierMouseEntered();
     }//GEN-LAST:event_panelButtonModifierMouseEntered
 
     private void panelButtonSupprimerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMousePressed
@@ -862,19 +1007,11 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonSupprimerMousePressed
 
     private void panelButtonSupprimerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseExited
-        if (!this.supprimerPressed) {
-            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
-            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
-            this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
-        }
+        this.panelButtonSupprimerMouseExited();
     }//GEN-LAST:event_panelButtonSupprimerMouseExited
 
     private void panelButtonSupprimerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseEntered
-        if (!this.supprimerPressed) {
-            this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
-            this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
-            this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_SELECTED);
-        }
+        this.panelButtonSupprimerMouseEntered();
     }//GEN-LAST:event_panelButtonSupprimerMouseEntered
 
     private void panelButtonAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMousePressed
@@ -882,19 +1019,11 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonAjouterMousePressed
 
     private void panelButtonAjouterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseExited
-        if (!this.ajouterPressed) {
-            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
-            this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
-            this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
-        }
+        this.panelButtonAjouterMouseExited();
     }//GEN-LAST:event_panelButtonAjouterMouseExited
 
     private void panelButtonAjouterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseEntered
-        if (!this.ajouterPressed) {
-            this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
-            this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
-            this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_SELECTED);
-        }
+        this.panelButtonAjouterMouseEntered();
     }//GEN-LAST:event_panelButtonAjouterMouseEntered
 
     private void panelButtonConsulterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMousePressed
@@ -902,110 +1031,47 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonConsulterMousePressed
 
     private void panelButtonConsulterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseExited
-        if (!this.consulterPressed) {
-            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
-            this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
-            this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
-        }
+        this.panelButtonConsulterMouseExited();
     }//GEN-LAST:event_panelButtonConsulterMouseExited
 
     private void panelButtonConsulterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseEntered
-        if (!this.consulterPressed) {
-            this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
-            this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
-            this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_SELECTED);
-        }
+        this.panelButtonConsulterMouseEntered();
     }//GEN-LAST:event_panelButtonConsulterMouseEntered
 
     private void panelAjouterUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterUnLivreMousePressed
-        this.panelButtonAjouterMousePressed();
-        
-        this.ajouterDataPressed = true;
-        this.supprimerDataPressed = false;
-        this.modifierDataPressed = false;
-        
-        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        
-        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
-        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.panelAjouterUnLivreMousePressed();
     }//GEN-LAST:event_panelAjouterUnLivreMousePressed
 
     private void panelAjouterUnLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterUnLivreMouseEntered
-        if (!this.ajouterDataPressed) {
-            this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-            this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
-        }
+        this.panelAjouterUnLivreMouseEntered();
     }//GEN-LAST:event_panelAjouterUnLivreMouseEntered
 
     private void panelAjouterUnLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterUnLivreMouseExited
-        if (!this.ajouterDataPressed) {
-            this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-            this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        }
+        this.panelAjouterUnLivreMouseExited();
     }//GEN-LAST:event_panelAjouterUnLivreMouseExited
 
     private void panelSupprimerUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerUnLivreMousePressed
-        this.panelButtonSupprimerMousePressed();
-        
-        this.ajouterDataPressed = false;
-        this.supprimerDataPressed = true;
-        this.modifierDataPressed = false;
-        
-        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        
-        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
-        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.panelSupprimerUnLivreMousePressed();
     }//GEN-LAST:event_panelSupprimerUnLivreMousePressed
 
     private void panelSupprimerUnLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerUnLivreMouseEntered
-        if (!this.supprimerDataPressed) {
-            this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-            this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED); 
-        }
+        this.panelSupprimerUnLivreMouseEntered();
     }//GEN-LAST:event_panelSupprimerUnLivreMouseEntered
 
     private void panelSupprimerUnLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerUnLivreMouseExited
-        if (!this.supprimerDataPressed) {
-            this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-            this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED); 
-        }
+        this.panelSupprimerUnLivreMouseExited();
     }//GEN-LAST:event_panelSupprimerUnLivreMouseExited
 
     private void panelModifierUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierUnLivreMousePressed
-        this.panelButtonModifierMousePressed();
-        
-        this.ajouterDataPressed = false;
-        this.supprimerDataPressed = false;
-        this.modifierDataPressed = true;
-        
-        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-        
-        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+        this.panelModifierUnLivreMousePressed();
     }//GEN-LAST:event_panelModifierUnLivreMousePressed
 
     private void panelModifierUnLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierUnLivreMouseEntered
-        if (!this.modifierDataPressed) {
-            this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-            this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);    
-        }
+        this.panelModifierUnLivreMouseEntered();
     }//GEN-LAST:event_panelModifierUnLivreMouseEntered
 
     private void panelModifierUnLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierUnLivreMouseExited
-        if (!this.modifierDataPressed) {
-            this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-            this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);            
-        }
-       
+        this.panelModifierUnLivreMouseExited();
     }//GEN-LAST:event_panelModifierUnLivreMouseExited
 
     /**
