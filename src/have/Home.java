@@ -28,6 +28,8 @@ public class Home extends javax.swing.JFrame {
     private boolean supprimerPressed;
     private boolean modifierPressed;
     private GestionBaseDeDonnees gestionBaseDeDonnees;
+    private int posX;
+    private int posY;
     
     private void initBooleanPressed() {
         this.consulterPressed = false;
@@ -104,12 +106,25 @@ public class Home extends javax.swing.JFrame {
         tableDatabase = new javax.swing.JTable();
         panelButtonClose = new javax.swing.JPanel();
         labelClose = new javax.swing.JLabel();
+        panelBar = new javax.swing.JPanel();
+        labelHaveLogo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(987, 577));
 
         panelMain.setBackground(new java.awt.Color(226, 226, 226));
+        panelMain.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                panelMainMouseDragged(evt);
+            }
+        });
+        panelMain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelMainMousePressed(evt);
+            }
+        });
 
         panelPane.setBackground(new java.awt.Color(24, 26, 31));
         panelPane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -215,12 +230,13 @@ public class Home extends javax.swing.JFrame {
 
         panelData.setBackground(new java.awt.Color(242, 244, 247));
 
+        scrollpaneDatabase.setBorder(null);
+        scrollpaneDatabase.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        tableDatabase.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableDatabase.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Id", "Titre", "Auteur", "Numero", "Categorie", "Emplacement"
@@ -241,6 +257,7 @@ public class Home extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableDatabase.setGridColor(new java.awt.Color(255, 255, 255));
         tableDatabase.getTableHeader().setReorderingAllowed(false);
         scrollpaneDatabase.setViewportView(tableDatabase);
         if (tableDatabase.getColumnModel().getColumnCount() > 0) {
@@ -260,9 +277,7 @@ public class Home extends javax.swing.JFrame {
         );
         panelDataLayout.setVerticalGroup(
             panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDataLayout.createSequentialGroup()
-                .addComponent(scrollpaneDatabase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(scrollpaneDatabase)
         );
 
         panelButtonClose.setBackground(new java.awt.Color(226, 226, 226));
@@ -294,6 +309,24 @@ public class Home extends javax.swing.JFrame {
             .addComponent(labelClose, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
+        panelBar.setBackground(new java.awt.Color(24, 26, 31));
+
+        javax.swing.GroupLayout panelBarLayout = new javax.swing.GroupLayout(panelBar);
+        panelBar.setLayout(panelBarLayout);
+        panelBarLayout.setHorizontalGroup(
+            panelBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 225, Short.MAX_VALUE)
+        );
+        panelBarLayout.setVerticalGroup(
+            panelBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 8, Short.MAX_VALUE)
+        );
+
+        labelHaveLogo.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        labelHaveLogo.setForeground(new java.awt.Color(197, 56, 53));
+        labelHaveLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelHaveLogo.setText("HAVE");
+
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
@@ -303,16 +336,23 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(panelPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(labelHaveLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(193, 193, 193)
+                .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
-                .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelHaveLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(panelData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -334,6 +374,8 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelButtonConsulterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMousePressed
+
+        
         this.consulterPressed = true;
         this.ajouterPressed = false;
         this.supprimerPressed = false;
@@ -474,6 +516,19 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.labelClose, COLOR_LABEL_CLOSE_UNSELECTED);
     }//GEN-LAST:event_panelButtonCloseMouseExited
 
+    private void panelMainMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMainMousePressed
+        this.posX = evt.getX();
+        this.posY = evt.getY();
+    }//GEN-LAST:event_panelMainMousePressed
+
+    private void panelMainMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMainMouseDragged
+        // TODO add your handling code here:
+        int newX = evt.getXOnScreen();
+        int newY = evt.getYOnScreen();
+        
+        this.setLocation(newX - this.posX, newY - this.posY);
+    }//GEN-LAST:event_panelMainMouseDragged
+
     /**
      * @param args the command line arguments
      */
@@ -514,8 +569,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel labelClose;
     private javax.swing.JLabel labelConsulter;
     private javax.swing.JLabel labelHave;
+    private javax.swing.JLabel labelHaveLogo;
     private javax.swing.JLabel labelModifier;
     private javax.swing.JLabel labelSupprimer;
+    private javax.swing.JPanel panelBar;
     private javax.swing.JPanel panelButtonAjouter;
     private javax.swing.JPanel panelButtonClose;
     private javax.swing.JPanel panelButtonConsulter;
