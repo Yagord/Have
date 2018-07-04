@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package have;
+package database;
 
+import model.Livre;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -31,7 +32,8 @@ public class GestionBaseDeDonnees {
                                                "titre VARCHAR(255), " +
                                                "auteur VARCHAR(255), " +
                                                "numero VARCHAR(255), " +
-                                               "categorie VARCHAR(255));";
+                                               "categorie VARCHAR(255), " +
+                                               "emplacement VARCHAR(255));";
     
     public GestionBaseDeDonnees() {
         this.ouvrirConnection();
@@ -76,8 +78,9 @@ public class GestionBaseDeDonnees {
             String auteur = livre.getAuteur();
             String numero = livre.getNumero();
             String categorie = livre.getCategorie();
-            String sqlQuery = "INSERT INTO LIVRE (titre, auteur, numero, categorie) VALUES ('" +
-                              titre + "', '" + auteur + "', '" + numero + "', '" + categorie + "');";
+            String emplacement = livre.getEmplacement();
+            String sqlQuery = "INSERT INTO LIVRE (titre, auteur, numero, categorie, emplacement) VALUES ('" +
+                              titre + "', '" + auteur + "', '" + numero + "', '" + categorie + "', '" + emplacement + "');";
             this.statement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,7 +96,7 @@ public class GestionBaseDeDonnees {
             this.nbColonnes = resultSet.getMetaData().getColumnCount();
                     
             while (resultSet.next()) {
-                Livre livre = new Livre(resultSet.getString("id"), resultSet.getString("titre"), resultSet.getString("auteur"), resultSet.getString("numero"), resultSet.getString("categorie"));
+                Livre livre = new Livre(resultSet.getString("id"), resultSet.getString("titre"), resultSet.getString("auteur"), resultSet.getString("numero"), resultSet.getString("categorie"), resultSet.getString("emplacement"));
                 alLivres.add(livre);
             }
         } catch (SQLException ex) {
@@ -111,7 +114,7 @@ public class GestionBaseDeDonnees {
             this.nbColonnes = resultSet.getMetaData().getColumnCount();
             
             while (resultSet.next()) {
-                Object[] objects = new Object[this.nbColonnes + 1];
+                Object[] objects = new Object[this.nbColonnes];
                 for (int i = 1; i <= this.nbColonnes; i++) {
                     objects[i-1] = resultSet.getObject(i);
                 }
@@ -176,6 +179,7 @@ public class GestionBaseDeDonnees {
                               "auteur = '" + livre.getAuteur() + "', " +
                               "numero = '" + livre.getNumero()+ "', " +
                               "categorie = '" + livre.getCategorie()+ "' " +
+                              "emplacement = '" + livre.getCategorie()+ "' " +
                               "WHERE id = '" + livre.getId() + "';";
             this.statement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {

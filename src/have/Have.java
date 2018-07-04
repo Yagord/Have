@@ -5,6 +5,9 @@
  */
 package have;
 
+import database.GestionBaseDeDonnees;
+import model.Livre;
+
 /**
  *
  * @author Pierre-Nicolas
@@ -17,9 +20,10 @@ public class Have {
     public static void main(String[] args) {
         // TODO code application logic here
         GestionBaseDeDonnees gestionBaseDeDonnees = new GestionBaseDeDonnees();
-        Livre livre = new Livre("", "One Piece", "Eiichirō Oda", "1", "Shonen");
+        Livre livre = new Livre("", "One Piece", "Eiichirō Oda", "1", "Shonen", "1");
         gestionBaseDeDonnees.insertIntoLivre(livre);
         System.out.println(gestionBaseDeDonnees.selectAllFromLivre());
+        System.out.println(gestionBaseDeDonnees.getNbColonne());
     }
     
 }

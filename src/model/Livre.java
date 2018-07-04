@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package have;
+package model;
 
 /**
  *
@@ -15,6 +15,7 @@ public class Livre {
     private String auteur;
     private String numero;
     private String categorie;
+    private String emplacement;
 
     public String getId() {
         return id;
@@ -56,17 +57,26 @@ public class Livre {
         this.categorie = categorie;
     }
     
-    public Livre(String id, String titre, String auteur, String numero, String categorie) {
+    public String getEmplacement() {
+        return emplacement;
+    }
+
+    public void setEmplacement(String emplacement) {
+        this.emplacement = emplacement;
+    }
+    
+    public Livre(String id, String titre, String auteur, String numero, String categorie, String emplacement) {
         this.id = id;
         this.titre = titre;
         this.auteur = auteur;
         this.numero = numero;
         this.categorie = categorie;
+        this.emplacement = emplacement;
     }
     
     @Override
     public String toString() {
-        return this.id + ", " + this.titre + ", " + this.auteur + ", " + this.numero + ", " + this.categorie;
+        return this.id + ", " + this.titre + ", " + this.auteur + ", " + this.numero + ", " + this.categorie + ", " + this.emplacement;
     }
     
 }

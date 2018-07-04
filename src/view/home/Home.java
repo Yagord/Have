@@ -1,5 +1,6 @@
-package have;
+package view.home;
 
+import database.GestionBaseDeDonnees;
 import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -98,7 +99,7 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void componentPressedChangeColor(JComponent jComponent, Color color) {
-        
+    
     }
 
     private void componentEnteredChangeColor(JComponent jComponent, Color color) {
@@ -107,6 +108,103 @@ public class Home extends javax.swing.JFrame {
         
     private void componentExitedChangeColor(JComponent jComponent, Color color) {
         
+    }
+    
+    private void panelButtonModifierMousePressed() {
+        this.afficherModifier();
+        this.consulterPressed = false;
+        this.ajouterPressed = false;
+        this.supprimerPressed = false;
+        this.modifierPressed = true;
+
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
+        
+        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_SELECTED);
+        
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);        
+    }
+    
+    private void panelButtonSupprimerMousePressed() {
+        this.afficherSupprimer();
+
+        this.consulterPressed = false;
+        this.ajouterPressed = false;
+        this.supprimerPressed = true;
+        this.modifierPressed = false;
+
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_SELECTED);
+        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
+
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);        
+    }
+    
+    private void panelButtonAjouterMousePressed() {
+        this.afficherAjouter();
+
+        this.consulterPressed = false;
+        this.ajouterPressed = true;
+        this.supprimerPressed = false;
+        this.modifierPressed = false;
+
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_SELECTED);
+        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
+
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);        
+    }
+    
+    private void panelButtonConsulterMousePressed() {
+        this.chargerDonnees();
+
+        this.afficherConsulter();
+
+        this.consulterPressed = true;
+        this.ajouterPressed = false;
+        this.supprimerPressed = false;
+        this.modifierPressed = false;
+
+        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
+        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
+        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
+        
+        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_SELECTED);
+        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
+        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
+
+        this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
+        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
+        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);        
     }
     
     private void chargerDonnees() {
@@ -740,26 +838,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonCloseMouseEntered
 
     private void panelButtonModifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMousePressed
-        this.afficherModifier();
-        this.consulterPressed = false;
-        this.ajouterPressed = false;
-        this.supprimerPressed = false;
-        this.modifierPressed = true;
-
-        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_SELECTED);
-        
-        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_SELECTED);
-        
-        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelModifier, Home.COLOR_LABEL_SELECTED);
+        this.panelButtonModifierMousePressed();
     }//GEN-LAST:event_panelButtonModifierMousePressed
 
     private void panelButtonModifierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonModifierMouseExited
@@ -779,27 +858,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonModifierMouseEntered
 
     private void panelButtonSupprimerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMousePressed
-        this.afficherSupprimer();
-
-        this.consulterPressed = false;
-        this.ajouterPressed = false;
-        this.supprimerPressed = true;
-        this.modifierPressed = false;
-
-        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_SELECTED);
-        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
-        
-        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_SELECTED);
-        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
-
-        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_SELECTED);
-        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+        this.panelButtonSupprimerMousePressed();
     }//GEN-LAST:event_panelButtonSupprimerMousePressed
 
     private void panelButtonSupprimerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonSupprimerMouseExited
@@ -819,27 +878,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonSupprimerMouseEntered
 
     private void panelButtonAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMousePressed
-        this.afficherAjouter();
-
-        this.consulterPressed = false;
-        this.ajouterPressed = true;
-        this.supprimerPressed = false;
-        this.modifierPressed = false;
-
-        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_SELECTED);
-        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
-        
-        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_SELECTED);
-        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
-
-        this.setColor(this.labelConsulter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelAjouter, Home.COLOR_LABEL_SELECTED);
-        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+        this.panelButtonAjouterMousePressed();
     }//GEN-LAST:event_panelButtonAjouterMousePressed
 
     private void panelButtonAjouterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonAjouterMouseExited
@@ -859,29 +898,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonAjouterMouseEntered
 
     private void panelButtonConsulterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMousePressed
-        this.chargerDonnees();
-
-        this.afficherConsulter();
-
-        this.consulterPressed = true;
-        this.ajouterPressed = false;
-        this.supprimerPressed = false;
-        this.modifierPressed = false;
-
-        this.setColor(this.panelButtonConsulter, Home.COLOR_BUTTON_SELECTED);
-        this.setColor(this.panelButtonAjouter, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonSupprimer, Home.COLOR_BUTTON_UNSELECTED);
-        this.setColor(this.panelButtonModifier, Home.COLOR_BUTTON_UNSELECTED);
-        
-        this.setColor(this.panelHideSeparatorConsulter, Home.COLOR_SEPARATOR_SELECTED);
-        this.setColor(this.panelHideSeparatorAjouter, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorSupprimer, Home.COLOR_SEPARATOR_UNSELECTED);
-        this.setColor(this.panelHideSeparatorModifier, Home.COLOR_SEPARATOR_UNSELECTED);
-
-        this.setColor(this.labelConsulter, Home.COLOR_LABEL_SELECTED);
-        this.setColor(this.labelAjouter, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelSupprimer, Home.COLOR_LABEL_UNSELECTED);
-        this.setColor(this.labelModifier, Home.COLOR_LABEL_UNSELECTED);
+        this.panelButtonConsulterMousePressed();
     }//GEN-LAST:event_panelButtonConsulterMousePressed
 
     private void panelButtonConsulterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelButtonConsulterMouseExited
@@ -901,6 +918,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelButtonConsulterMouseEntered
 
     private void panelAjouterUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterUnLivreMousePressed
+        this.panelButtonAjouterMousePressed();
+        
         this.ajouterDataPressed = true;
         this.supprimerDataPressed = false;
         this.modifierDataPressed = false;
@@ -929,6 +948,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelAjouterUnLivreMouseExited
 
     private void panelSupprimerUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerUnLivreMousePressed
+        this.panelButtonSupprimerMousePressed();
+        
         this.ajouterDataPressed = false;
         this.supprimerDataPressed = true;
         this.modifierDataPressed = false;
@@ -957,6 +978,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_panelSupprimerUnLivreMouseExited
 
     private void panelModifierUnLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierUnLivreMousePressed
+        this.panelButtonModifierMousePressed();
+        
         this.ajouterDataPressed = false;
         this.supprimerDataPressed = false;
         this.modifierDataPressed = true;
