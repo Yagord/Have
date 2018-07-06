@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author Pierre-Nicolas
@@ -16,6 +18,8 @@ public class Livre {
     private String numero;
     private String categorie;
     private String emplacement;
+    private String cheminImage;
+    private BufferedImage image;
 
     public String getId() {
         return id;
@@ -64,14 +68,32 @@ public class Livre {
     public void setEmplacement(String emplacement) {
         this.emplacement = emplacement;
     }
+
+    public String getCheminImage() {
+        return cheminImage;
+    }
+
+    public void setCheminImage(String cheminImage) {
+        this.cheminImage = cheminImage;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
     
-    public Livre(String id, String titre, String auteur, String numero, String categorie, String emplacement) {
+    public Livre(String id, String titre, String auteur, String numero, String categorie, String emplacement, String chemin, BufferedImage image) {
         this.id = id;
         this.titre = titre;
         this.auteur = auteur;
         this.numero = numero;
         this.categorie = categorie;
         this.emplacement = emplacement;
+        this.cheminImage = chemin;
+        this.image = image;
     }
     
     @Override

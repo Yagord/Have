@@ -5,14 +5,23 @@
  */
 package database;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Blob;
 import model.Livre;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -33,7 +42,8 @@ public class GestionBaseDeDonnees {
                                                "auteur VARCHAR(255), " +
                                                "numero VARCHAR(255), " +
                                                "categorie VARCHAR(255), " +
-                                               "emplacement VARCHAR(255));";
+                                               "emplacement VARCHAR(255), " +
+                                               "image BLOB);";
     
     public GestionBaseDeDonnees() {
         this.ouvrirConnection();
@@ -79,10 +89,33 @@ public class GestionBaseDeDonnees {
             String numero = livre.getNumero();
             String categorie = livre.getCategorie();
             String emplacement = livre.getEmplacement();
-            String sqlQuery = "INSERT INTO LIVRE (titre, auteur, numero, categorie, emplacement) VALUES ('" +
-                              titre + "', '" + auteur + "', '" + numero + "', '" + categorie + "', '" + emplacement + "');";
-            this.statement.executeUpdate(sqlQuery);
+            String chemin = livre.getCheminImage();
+            
+            File file = null;
+            FileInputStream fileInputStream = null;
+            if (chemin != null) {
+                file = new File(chemin);
+                fileInputStream = new FileInputStream(file);
+            }
+
+            String sqlQuery = "INSERT INTO LIVRE (titre, auteur, numero, categorie, emplacement, image) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = this.connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1, titre);
+            preparedStatement.setString(2, auteur);
+            preparedStatement.setString(3, numero);
+            preparedStatement.setString(4, categorie);
+            preparedStatement.setString(5, emplacement);
+            if (fileInputStream != null) {
+                preparedStatement.setBinaryStream(6, fileInputStream, (int)file.length());
+            }
+            else {
+                preparedStatement.setNull(6, Types.BLOB);
+            }
+            preparedStatement.execute();
+            
         } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -96,7 +129,14 @@ public class GestionBaseDeDonnees {
             this.nbColonnes = resultSet.getMetaData().getColumnCount();
                     
             while (resultSet.next()) {
-                Livre livre = new Livre(resultSet.getString("id"), resultSet.getString("titre"), resultSet.getString("auteur"), resultSet.getString("numero"), resultSet.getString("categorie"), resultSet.getString("emplacement"));
+                Blob blob = resultSet.getBlob("image");
+                BufferedImage image = null;
+                try {
+                    image = ImageIO.read(blob.getBinaryStream());
+                } catch (IOException ex) {
+                    Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Livre livre = new Livre(resultSet.getString("id"), resultSet.getString("titre"), resultSet.getString("auteur"), resultSet.getString("numero"), resultSet.getString("categorie"), resultSet.getString("emplacement"), "", image);
                 alLivres.add(livre);
             }
         } catch (SQLException ex) {
@@ -140,6 +180,48 @@ public class GestionBaseDeDonnees {
         return res;
     }
     
+    public Object[] selectAllFromLivreWhereId(int id) {
+        Object[] object = new Object[this.nbColonnes];
+        try {
+            String sqlQuery = "SELECT * FROM LIVRE WHERE ID = ?";
+            PreparedStatement preparedStatement = this.connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                for (int i = 1; i <= this.nbColonnes; i++) {
+                    object[i-1] = resultSet.getObject(i);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return object;
+    }
+    
+    public BufferedImage selectImageFromLivreWhereId(int id) {
+        BufferedImage image = null;
+        try {
+            String sqlQuery = "SELECT IMAGE FROM LIVRE WHERE ID = ?";
+            PreparedStatement preparedStatement = this.connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Blob blob = resultSet.getBlob("image");
+                if (blob != null) {
+                    image = ImageIO.read(blob.getBinaryStream());
+                }
+                else {
+                    image = null;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return image;
+    }
+    
     public void deleteAllFromLivre() {
         try {
             String sqlQuery = "DELETE FROM LIVRE;";
@@ -154,19 +236,23 @@ public class GestionBaseDeDonnees {
             String id = livre.getId();
             String sqlQuery = "DELETE " +
                               "FROM LIVRE " +
-                              "WHERE LIVRE.id = " + id;
-            this.statement.executeUpdate(sqlQuery);
+                              "WHERE LIVRE.id = ?";
+            PreparedStatement preparedStatement = this.connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, Integer.valueOf(id));
+            preparedStatement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void deleteLivreWhereId(String id) {
+    public void deleteLivreWhereId(int id) {
         try {
             String sqlQuery = "DELETE " +
                               "FROM LIVRE " +
-                              "WHERE LIVRE.id = " + id;
-            this.statement.executeUpdate(sqlQuery);
+                              "WHERE LIVRE.id = ?";
+            PreparedStatement preparedStatement = this.connection.prepareStatement(sqlQuery);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -15,15 +15,16 @@ import model.Livre;
 public class Have {
 
     /**
-     * @param args the command line arguments
+     * @param args the command line argumentssssss
      */
     public static void main(String[] args) {
         // TODO code application logic here
         GestionBaseDeDonnees gestionBaseDeDonnees = new GestionBaseDeDonnees();
-        Livre livre = new Livre("", "One Piece", "Eiichirō Oda", "1", "Shonen", "1");
+        gestionBaseDeDonnees.dropTableLivreAndRecreateTableLivre();
+        /*Livre livre = new Livre("", "One Piece", "Eiichirō Oda", "1", "Shonen", "1", "", null);
         gestionBaseDeDonnees.insertIntoLivre(livre);
         System.out.println(gestionBaseDeDonnees.selectAllFromLivre());
-        System.out.println(gestionBaseDeDonnees.getNbColonne());
+        System.out.println(gestionBaseDeDonnees.getNbColonne());*/
     }
     
 }

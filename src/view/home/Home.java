@@ -2,9 +2,18 @@ package view.home;
 
 import database.GestionBaseDeDonnees;
 import java.awt.Color;
+import java.awt.FileDialog;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileFilter;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
+import model.Livre;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,9 +30,9 @@ public class Home extends javax.swing.JFrame {
     private static final Color COLOR_BUTTON_SELECTED = new Color(228, 228, 229);
     private static final Color COLOR_LABEL_UNSELECTED = new Color(197, 56, 53);
     private static final Color COLOR_LABEL_SELECTED = new Color(181, 53, 51);
-    private static final Color COLOR_BUTTON_CLOSE_UNSELECTED = new Color(226, 226, 226);
-    private static final Color COLOR_BUTTON_CLOSE_SELECTED = new Color(232, 17, 35);
-    private static final Color COLOR_LABEL_CLOSE_UNSELECTED = new Color(5, 7, 8);
+    private static final Color COLOR_BUTTON_CLOSE_UNSELECTED = new Color(24, 26, 31);
+    private static final Color COLOR_BUTTON_CLOSE_SELECTED = new Color(203, 65, 62);
+    private static final Color COLOR_LABEL_CLOSE_UNSELECTED = new Color(197, 56, 53);
     private static final Color COLOR_LABEL_CLOSE_SELECTED = new Color(255, 255, 255);
     private static final Color COLOR_SEPARATOR_UNSELECTED = new Color(197, 56, 53);
     private static final Color COLOR_SEPARATOR_SELECTED = new Color(228, 228, 229);
@@ -41,6 +50,7 @@ public class Home extends javax.swing.JFrame {
     private GestionBaseDeDonnees gestionBaseDeDonnees;
     private int posX;
     private int posY;
+    private String cheminImage;
     
     private void initBooleanPressed() {
         this.consulterPressed = false;
@@ -61,7 +71,38 @@ public class Home extends javax.swing.JFrame {
         this.afficherConsulter();
     }
     
+    private void initAffichageAjouter() {
+        this.textFieldTitreAjouter.setText("");
+        this.texteFieldAuteurAjouter.setText("");
+        this.textFieldNumeroAjouter.setText("");
+        this.comboBoxCategorieAjouter.setSelectedIndex(0);
+        this.comboBoxEmplacementAjouter.setSelectedIndex(0);
+        this.checkBoxNumAuto.setSelected(false);
+        this.cheminImage = null;
+    }
+    
+    private void initAffichageSupprimer() {
+        this.textFieldTitreSupprimer.setText("");
+        this.texteFieldAuteurSupprimer.setText("");
+        this.textFieldNumeroSupprimer.setText("");
+        this.comboBoxCategorieSupprimer.setSelectedIndex(0);
+        this.comboBoxEmplacementSupprimer.setSelectedIndex(0);
+    }
+        
+    private void initAffichageModifier() {
+        this.textFieldTitreModifier.setText("");
+        this.texteFieldAuteurModifier.setText("");
+        this.textFieldNumeroModifier.setText("");
+        this.comboBoxCategorieModifier.setSelectedIndex(0);
+        this.comboBoxEmplacementModifier.setSelectedIndex(0);
+        this.cheminImage = null;
+    }
+    
     private void afficherConsulter() {
+        this.initAffichageAjouter();
+        this.initAffichageSupprimer();
+        this.initAffichageModifier();
+        
         this.panelConsulter.setVisible(true);
         this.panelAjouter.setVisible(false);
         this.panelSupprimer.setVisible(false);
@@ -69,6 +110,10 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void afficherAjouter() {
+        this.viderImageCentrale();
+        this.initAffichageSupprimer();
+        this.initAffichageModifier();
+        
         this.panelConsulter.setVisible(false);
         this.panelAjouter.setVisible(true);
         this.panelSupprimer.setVisible(false);
@@ -76,6 +121,10 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void afficherSupprimer() {
+        this.viderImageCentrale();
+        this.initAffichageAjouter();
+        this.initAffichageModifier();
+        
         this.panelConsulter.setVisible(false);
         this.panelAjouter.setVisible(false);
         this.panelSupprimer.setVisible(true);
@@ -83,6 +132,10 @@ public class Home extends javax.swing.JFrame {
     }
         
     private void afficherModifier() {
+        this.viderImageCentrale();
+        this.initAffichageAjouter();
+        this.initAffichageModifier();
+        
         this.panelConsulter.setVisible(false);
         this.panelAjouter.setVisible(false);
         this.panelSupprimer.setVisible(false);
@@ -97,6 +150,41 @@ public class Home extends javax.swing.JFrame {
         jLabel.setForeground(color);
     }
     
+    private String getCategorieIndex(int indexValue) {
+        String categorie = "";
+        if (indexValue == 0) {
+            categorie = "Shonen";
+        }
+        else if (indexValue == 1) {
+            categorie = "Shojo";
+        }
+        else if (indexValue == 2) {
+            categorie = "Seinen";
+        }
+        return categorie;
+    }
+    
+    private ImageIcon afficherNoImage() {
+        String cheminNoImage = "images/noImageAvailable.png";
+        return new ImageIcon(this.getClass().getClassLoader().getResource(cheminNoImage));
+    }
+    
+    private void viderImageCentrale() {
+        this.labelImageCentrale.setIcon(null);
+    }
+    
+    private void chercherUneImage() {
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
+        int result = jFileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            this.cheminImage = jFileChooser.getSelectedFile().getPath();
+        }
+        //FileDialog fileDialog = new FileDialog(this);
+        //fileDialog.setVisible(true);
+        //System.out.println(fileDialog.getFile());
+        //System.out.println(fileDialog.getDirectory());
+    }
         
     private void chargerDonnees() {
         java.util.ArrayList<Object[]> alLivres = new java.util.ArrayList();
@@ -106,8 +194,28 @@ public class Home extends javax.swing.JFrame {
             ((DefaultTableModel)this.tableDatabase.getModel()).removeRow(0);
         }
         for (int i = 0; i < alLivres.size(); i++) {
+            System.out.println(alLivres.size());
             ((DefaultTableModel)this.tableDatabase.getModel()).insertRow(i, alLivres.get(i));
         }
+    }
+    
+    private void ajouterDonnees() {
+        String titre = this.textFieldTitreAjouter.getText();
+        String auteur = this.texteFieldAuteurAjouter.getText();
+        String numero = this.textFieldNumeroAjouter.getText();
+        String categorie = this.getCategorieIndex(this.comboBoxCategorieAjouter.getSelectedIndex());
+        String emplacement = String.valueOf(this.comboBoxEmplacementAjouter.getSelectedIndex() + 1);
+        
+        Livre livre = new Livre("", titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
+        this.gestionBaseDeDonnees.insertIntoLivre(livre);
+    }
+    
+    private void supprimerDonnees() {
+        
+    }
+    
+    private void modifierDonnees() {
+        
     }
 
     private void panelButtonCloseMousePressed() {                                              
@@ -379,6 +487,103 @@ public class Home extends javax.swing.JFrame {
         }
     }
     
+    private void panelAjouterCeLivreMouseEntered() {                                                 
+        this.setColor(this.panelAjouterCeLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.labelAjouterCeLivre, Home.COLOR_LABEL_DATA_SELECTED);
+    }                                                
+
+    private void panelAjouterCeLivreMouseExited() {                                                
+        this.setColor(this.panelAjouterCeLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.labelAjouterCeLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+    }                                               
+
+    private void panelAjouterCeLivreMousePressed() {                                                 
+        this.ajouterDonnees();
+        if (!this.checkBoxNumAuto.isSelected()) {
+            this.initAffichageAjouter();
+        }
+        else {
+            this.textFieldNumeroAjouter.getText();
+            if (!this.textFieldNumeroAjouter.getText().equals("")) {
+                this.textFieldNumeroAjouter.setText("" + (Integer.valueOf(this.textFieldNumeroAjouter.getText()) + 1));
+
+            }
+            this.cheminImage = null;
+        }
+        
+    }                                                
+
+    private void panelSupprimerCeLivreMouseEntered() {                                                   
+        this.setColor(this.panelSupprimerCeLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.labelSupprimerCeLivre, Home.COLOR_LABEL_DATA_SELECTED);
+    }                                                  
+
+    private void panelSupprimerCeLivreMouseExited() {                                                  
+        this.setColor(this.panelSupprimerCeLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.labelSupprimerCeLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+    }                                                 
+
+    private void panelSupprimerCeLivreMousePressed() {                                                   
+        this.supprimerDonnees();
+    }                                                  
+
+    private void paneModifierCeLivreMouseEntered() {                                                 
+        this.setColor(this.panelModifierCeLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.labelModifierCeLivre, Home.COLOR_LABEL_DATA_SELECTED);
+    }                                                
+
+    private void paneModifierCeLivreMouseExited() {                                                
+        this.setColor(this.panelModifierCeLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.labelModifierCeLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+    }                                               
+
+    private void paneModifierCeLivreMousePressed() {                                                 
+        this.modifierDonnees();
+    }
+    
+    private void tableDatabaseMousePressed() {                                           
+        int selectedRow = this.tableDatabase.getSelectedRow();
+        BufferedImage bufferedImage = this.gestionBaseDeDonnees.selectImageFromLivreWhereId(selectedRow + 1);
+        ImageIcon imageIcon = null;
+        if (bufferedImage != null) {
+            imageIcon = new ImageIcon(bufferedImage);
+        }
+        else {
+            imageIcon = this.afficherNoImage();
+        }
+        Image newImage = imageIcon.getImage().getScaledInstance(192, 266, java.awt.Image.SCALE_SMOOTH);
+        imageIcon.setImage(newImage);
+        this.labelImageCentrale.setIcon(imageIcon);
+    }                                          
+
+    private void panelParcourirAjouterMouseEntered() {                                                   
+        this.setColor(this.panelParcourirAjouter, COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.labelParcourirAjouter, COLOR_LABEL_DATA_SELECTED);
+    }                                                  
+
+    private void panelParcourirAjouterMouseExited() {                                                  
+        this.setColor(this.panelParcourirAjouter, COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.labelParcourirAjouter, COLOR_LABEL_DATA_UNSELECTED);
+    }                                                 
+
+    private void panelParcourirAjouterMousePressed() {                                                   
+        this.chercherUneImage();
+    }                                                                                                
+
+    private void panelParcourirModifierMouseEntered() {                                                    
+        this.setColor(this.panelParcourirModifier, COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.labelParcourirModifier, COLOR_LABEL_DATA_SELECTED);
+    }                                                   
+
+    private void panelParcourirModifierMouseExited() {                                                   
+        this.setColor(this.panelParcourirModifier, COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.labelParcourirModifier, COLOR_LABEL_DATA_UNSELECTED);
+    }                                                  
+
+    private void panelParcourirModifierMousePressed() {                                                    
+        this.chercherUneImage();
+    }
+    
     /**
      * Creates new form Home
      */
@@ -420,22 +625,70 @@ public class Home extends javax.swing.JFrame {
         scrollpaneDatabase = new javax.swing.JScrollPane();
         tableDatabase = new javax.swing.JTable();
         panelAjouter = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        panelAjouterCeLivre = new javax.swing.JPanel();
+        labelAjouterCeLivre = new javax.swing.JLabel();
+        labelTitreAjouter = new javax.swing.JLabel();
+        textFieldTitreAjouter = new javax.swing.JTextField();
+        labelAuteurAjouter = new javax.swing.JLabel();
+        texteFieldAuteurAjouter = new javax.swing.JTextField();
+        labelNumeroAjouter = new javax.swing.JLabel();
+        textFieldNumeroAjouter = new javax.swing.JTextField();
+        labelCategorieAjouter = new javax.swing.JLabel();
+        comboBoxCategorieAjouter = new javax.swing.JComboBox<>();
+        labelEmplacementAjouter = new javax.swing.JLabel();
+        comboBoxEmplacementAjouter = new javax.swing.JComboBox<>();
+        labelAjoutLogo1 = new javax.swing.JLabel();
+        labelAjoutLogo2 = new javax.swing.JLabel();
+        labelAjoutLogo3 = new javax.swing.JLabel();
+        panelParcourirAjouter = new javax.swing.JPanel();
+        labelParcourirAjouter = new javax.swing.JLabel();
+        labelImageAjouter = new javax.swing.JLabel();
+        checkBoxNumAuto = new javax.swing.JCheckBox();
         panelSupprimer = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        panelSupprimerCeLivre = new javax.swing.JPanel();
+        labelSupprimerCeLivre = new javax.swing.JLabel();
+        labelTitreSupprimer = new javax.swing.JLabel();
+        textFieldTitreSupprimer = new javax.swing.JTextField();
+        labelAuteurSupprimer = new javax.swing.JLabel();
+        texteFieldAuteurSupprimer = new javax.swing.JTextField();
+        labelNumeroSupprimer = new javax.swing.JLabel();
+        textFieldNumeroSupprimer = new javax.swing.JTextField();
+        labelCategorieSupprimer = new javax.swing.JLabel();
+        comboBoxCategorieSupprimer = new javax.swing.JComboBox<>();
+        labelEmplacementSupprimer = new javax.swing.JLabel();
+        comboBoxEmplacementSupprimer = new javax.swing.JComboBox<>();
+        labelsuppressionLogo1 = new javax.swing.JLabel();
+        labelsuppressionLogo2 = new javax.swing.JLabel();
+        labelsuppressionLogo3 = new javax.swing.JLabel();
         panelModifier = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        panelModifierCeLivre = new javax.swing.JPanel();
+        labelModifierCeLivre = new javax.swing.JLabel();
+        labelTitreModifier = new javax.swing.JLabel();
+        textFieldTitreModifier = new javax.swing.JTextField();
+        labelAuteurModifier = new javax.swing.JLabel();
+        texteFieldAuteurModifier = new javax.swing.JTextField();
+        labelNumeroModifier = new javax.swing.JLabel();
+        textFieldNumeroModifier = new javax.swing.JTextField();
+        labelCategorieModifier = new javax.swing.JLabel();
+        labelEmplacementModifier = new javax.swing.JLabel();
+        labelModifiactionLogo1 = new javax.swing.JLabel();
+        labelModifiactionLogo2 = new javax.swing.JLabel();
+        labelModifiactionLogo3 = new javax.swing.JLabel();
+        comboBoxCategorieModifier = new javax.swing.JComboBox<>();
+        comboBoxEmplacementModifier = new javax.swing.JComboBox<>();
+        panelParcourirModifier = new javax.swing.JPanel();
+        labelParcourirModifier = new javax.swing.JLabel();
+        labelImageModifier = new javax.swing.JLabel();
         panelButtonClose = new javax.swing.JPanel();
         labelClose = new javax.swing.JLabel();
         panelBar = new javax.swing.JPanel();
-        panelImage = new javax.swing.JPanel();
         panelAjouterUnLivre = new javax.swing.JPanel();
         labelAjouterUnLivre = new javax.swing.JLabel();
         panelSupprimerUnLivre = new javax.swing.JPanel();
         labelSupprimerUnLivre = new javax.swing.JLabel();
         panelModifierUnLivre = new javax.swing.JPanel();
         labelModifierUnLivre = new javax.swing.JLabel();
+        labelImageCentrale = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -669,7 +922,14 @@ public class Home extends javax.swing.JFrame {
             }
         });
         tableDatabase.setGridColor(new java.awt.Color(255, 255, 255));
+        tableDatabase.setSelectionBackground(new java.awt.Color(203, 65, 62));
+        tableDatabase.setSelectionForeground(new java.awt.Color(233, 233, 233));
         tableDatabase.getTableHeader().setReorderingAllowed(false);
+        tableDatabase.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableDatabaseMousePressed(evt);
+            }
+        });
         scrollpaneDatabase.setViewportView(tableDatabase);
         if (tableDatabase.getColumnModel().getColumnCount() > 0) {
             tableDatabase.getColumnModel().getColumn(0).setResizable(false);
@@ -684,85 +944,420 @@ public class Home extends javax.swing.JFrame {
 
         panelData.add(panelConsulter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 520));
 
+        panelAjouter.setForeground(new java.awt.Color(24, 26, 31));
         panelAjouter.setPreferredSize(new java.awt.Dimension(650, 525));
+        panelAjouter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Ajout");
+        panelAjouterCeLivre.setBackground(new java.awt.Color(203, 65, 62));
+        panelAjouterCeLivre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelAjouterCeLivreMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelAjouterCeLivreMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelAjouterCeLivreMousePressed(evt);
+            }
+        });
 
-        jButton1.setText("jButton1");
+        labelAjouterCeLivre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelAjouterCeLivre.setForeground(new java.awt.Color(233, 233, 233));
+        labelAjouterCeLivre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelAjouterCeLivre.setText("Ajouter ce livre");
 
-        javax.swing.GroupLayout panelAjouterLayout = new javax.swing.GroupLayout(panelAjouter);
-        panelAjouter.setLayout(panelAjouterLayout);
-        panelAjouterLayout.setHorizontalGroup(
-            panelAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAjouterLayout.createSequentialGroup()
-                .addGroup(panelAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelAjouterLayout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(jLabel1))
-                    .addGroup(panelAjouterLayout.createSequentialGroup()
-                        .addGap(201, 201, 201)
-                        .addComponent(jButton1)))
-                .addContainerGap(326, Short.MAX_VALUE))
+        javax.swing.GroupLayout panelAjouterCeLivreLayout = new javax.swing.GroupLayout(panelAjouterCeLivre);
+        panelAjouterCeLivre.setLayout(panelAjouterCeLivreLayout);
+        panelAjouterCeLivreLayout.setHorizontalGroup(
+            panelAjouterCeLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAjouterCeLivreLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelAjouterCeLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        panelAjouterLayout.setVerticalGroup(
-            panelAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAjouterLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel1)
-                .addGap(82, 82, 82)
-                .addComponent(jButton1)
-                .addContainerGap(344, Short.MAX_VALUE))
+        panelAjouterCeLivreLayout.setVerticalGroup(
+            panelAjouterCeLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAjouterCeLivreLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelAjouterCeLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        panelData.add(panelAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 500));
+        panelAjouter.add(panelAjouterCeLivre, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 450, 160, -1));
+
+        labelTitreAjouter.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelTitreAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        labelTitreAjouter.setText("TITRE");
+        panelAjouter.add(labelTitreAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, -1, -1));
+
+        textFieldTitreAjouter.setBackground(new java.awt.Color(240, 240, 240));
+        textFieldTitreAjouter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        textFieldTitreAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        panelAjouter.add(textFieldTitreAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 240, 40));
+
+        labelAuteurAjouter.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelAuteurAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        labelAuteurAjouter.setText("AUTEUR");
+        panelAjouter.add(labelAuteurAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, -1, -1));
+
+        texteFieldAuteurAjouter.setBackground(new java.awt.Color(240, 240, 240));
+        texteFieldAuteurAjouter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        texteFieldAuteurAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        panelAjouter.add(texteFieldAuteurAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 240, 40));
+
+        labelNumeroAjouter.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelNumeroAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        labelNumeroAjouter.setText("NUMERO");
+        panelAjouter.add(labelNumeroAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, -1, -1));
+
+        textFieldNumeroAjouter.setBackground(new java.awt.Color(240, 240, 240));
+        textFieldNumeroAjouter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        panelAjouter.add(textFieldNumeroAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 240, 40));
+
+        labelCategorieAjouter.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelCategorieAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        labelCategorieAjouter.setText("CATEGORIE");
+        panelAjouter.add(labelCategorieAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, -1, -1));
+
+        comboBoxCategorieAjouter.setBackground(new java.awt.Color(240, 240, 240));
+        comboBoxCategorieAjouter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxCategorieAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        comboBoxCategorieAjouter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Shonen", "Shojo", "Seinen" }));
+        panelAjouter.add(comboBoxCategorieAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 240, 40));
+
+        labelEmplacementAjouter.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelEmplacementAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        labelEmplacementAjouter.setText("EMPLACEMENT");
+        panelAjouter.add(labelEmplacementAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, -1, -1));
+
+        comboBoxEmplacementAjouter.setBackground(new java.awt.Color(240, 240, 240));
+        comboBoxEmplacementAjouter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxEmplacementAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        comboBoxEmplacementAjouter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" }));
+        panelAjouter.add(comboBoxEmplacementAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 240, 40));
+
+        labelAjoutLogo1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelAjoutLogo1.setForeground(new java.awt.Color(197, 56, 53));
+        labelAjoutLogo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelAjoutLogo1.setText("AJOUT");
+        panelAjouter.add(labelAjoutLogo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 180, 70));
+
+        labelAjoutLogo2.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelAjoutLogo2.setForeground(new java.awt.Color(197, 56, 53));
+        labelAjoutLogo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelAjoutLogo2.setText("D'UN");
+        panelAjouter.add(labelAjoutLogo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 180, 70));
+
+        labelAjoutLogo3.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelAjoutLogo3.setForeground(new java.awt.Color(197, 56, 53));
+        labelAjoutLogo3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelAjoutLogo3.setText("LIVRE");
+        panelAjouter.add(labelAjoutLogo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 180, 70));
+
+        panelParcourirAjouter.setBackground(new java.awt.Color(203, 65, 62));
+        panelParcourirAjouter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelParcourirAjouterMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelParcourirAjouterMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelParcourirAjouterMousePressed(evt);
+            }
+        });
+
+        labelParcourirAjouter.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelParcourirAjouter.setForeground(new java.awt.Color(233, 233, 233));
+        labelParcourirAjouter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelParcourirAjouter.setText("Parcourir");
+
+        javax.swing.GroupLayout panelParcourirAjouterLayout = new javax.swing.GroupLayout(panelParcourirAjouter);
+        panelParcourirAjouter.setLayout(panelParcourirAjouterLayout);
+        panelParcourirAjouterLayout.setHorizontalGroup(
+            panelParcourirAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelParcourirAjouterLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelParcourirAjouter, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelParcourirAjouterLayout.setVerticalGroup(
+            panelParcourirAjouterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelParcourirAjouterLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelParcourirAjouter, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        panelAjouter.add(panelParcourirAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, 160, -1));
+
+        labelImageAjouter.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelImageAjouter.setForeground(new java.awt.Color(24, 26, 31));
+        labelImageAjouter.setText("IMAGE");
+        panelAjouter.add(labelImageAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, -1, -1));
+
+        checkBoxNumAuto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        checkBoxNumAuto.setForeground(new java.awt.Color(24, 26, 31));
+        checkBoxNumAuto.setText("Activer la numérotation automatique");
+        panelAjouter.add(checkBoxNumAuto, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 450, 230, 40));
+
+        panelData.add(panelAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         panelSupprimer.setPreferredSize(new java.awt.Dimension(650, 525));
+        panelSupprimer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setText("Supprimer");
+        panelSupprimerCeLivre.setBackground(new java.awt.Color(203, 65, 62));
+        panelSupprimerCeLivre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelSupprimerCeLivreMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelSupprimerCeLivreMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelSupprimerCeLivreMousePressed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout panelSupprimerLayout = new javax.swing.GroupLayout(panelSupprimer);
-        panelSupprimer.setLayout(panelSupprimerLayout);
-        panelSupprimerLayout.setHorizontalGroup(
-            panelSupprimerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSupprimerLayout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addComponent(jLabel3)
-                .addContainerGap(459, Short.MAX_VALUE))
+        labelSupprimerCeLivre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelSupprimerCeLivre.setForeground(new java.awt.Color(233, 233, 233));
+        labelSupprimerCeLivre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelSupprimerCeLivre.setText("Supprimer ce livre");
+
+        javax.swing.GroupLayout panelSupprimerCeLivreLayout = new javax.swing.GroupLayout(panelSupprimerCeLivre);
+        panelSupprimerCeLivre.setLayout(panelSupprimerCeLivreLayout);
+        panelSupprimerCeLivreLayout.setHorizontalGroup(
+            panelSupprimerCeLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSupprimerCeLivreLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelSupprimerCeLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        panelSupprimerLayout.setVerticalGroup(
-            panelSupprimerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSupprimerLayout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(jLabel3)
-                .addContainerGap(434, Short.MAX_VALUE))
+        panelSupprimerCeLivreLayout.setVerticalGroup(
+            panelSupprimerCeLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSupprimerCeLivreLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelSupprimerCeLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        panelSupprimer.add(panelSupprimerCeLivre, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 450, 160, -1));
+
+        labelTitreSupprimer.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelTitreSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        labelTitreSupprimer.setText("TITRE");
+        panelSupprimer.add(labelTitreSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, -1, -1));
+
+        textFieldTitreSupprimer.setEditable(false);
+        textFieldTitreSupprimer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        textFieldTitreSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        panelSupprimer.add(textFieldTitreSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 240, 40));
+
+        labelAuteurSupprimer.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelAuteurSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        labelAuteurSupprimer.setText("AUTEUR");
+        panelSupprimer.add(labelAuteurSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, -1, -1));
+
+        texteFieldAuteurSupprimer.setEditable(false);
+        texteFieldAuteurSupprimer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        texteFieldAuteurSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        panelSupprimer.add(texteFieldAuteurSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 240, 40));
+
+        labelNumeroSupprimer.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelNumeroSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        labelNumeroSupprimer.setText("NUMERO");
+        panelSupprimer.add(labelNumeroSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, -1, -1));
+
+        textFieldNumeroSupprimer.setEditable(false);
+        textFieldNumeroSupprimer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        panelSupprimer.add(textFieldNumeroSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 240, 40));
+
+        labelCategorieSupprimer.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelCategorieSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        labelCategorieSupprimer.setText("CATEGORIE");
+        panelSupprimer.add(labelCategorieSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, -1, -1));
+
+        comboBoxCategorieSupprimer.setBackground(new java.awt.Color(240, 240, 240));
+        comboBoxCategorieSupprimer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxCategorieSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        comboBoxCategorieSupprimer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Shonen", "Shojo", "Seinen" }));
+        panelSupprimer.add(comboBoxCategorieSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 240, 40));
+
+        labelEmplacementSupprimer.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelEmplacementSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        labelEmplacementSupprimer.setText("EMPLACEMENT");
+        panelSupprimer.add(labelEmplacementSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, -1, -1));
+
+        comboBoxEmplacementSupprimer.setBackground(new java.awt.Color(240, 240, 240));
+        comboBoxEmplacementSupprimer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxEmplacementSupprimer.setForeground(new java.awt.Color(24, 26, 31));
+        comboBoxEmplacementSupprimer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" }));
+        panelSupprimer.add(comboBoxEmplacementSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 240, 40));
+
+        labelsuppressionLogo1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelsuppressionLogo1.setForeground(new java.awt.Color(197, 56, 53));
+        labelsuppressionLogo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelsuppressionLogo1.setText("SUPPRESSION");
+        panelSupprimer.add(labelsuppressionLogo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, 70));
+
+        labelsuppressionLogo2.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelsuppressionLogo2.setForeground(new java.awt.Color(197, 56, 53));
+        labelsuppressionLogo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelsuppressionLogo2.setText("D'UN");
+        panelSupprimer.add(labelsuppressionLogo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 180, 70));
+
+        labelsuppressionLogo3.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelsuppressionLogo3.setForeground(new java.awt.Color(197, 56, 53));
+        labelsuppressionLogo3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelsuppressionLogo3.setText("LIVRE");
+        panelSupprimer.add(labelsuppressionLogo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 180, 70));
 
         panelData.add(panelSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         panelModifier.setPreferredSize(new java.awt.Dimension(650, 525));
+        panelModifier.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setText("Modifier");
+        panelModifierCeLivre.setBackground(new java.awt.Color(203, 65, 62));
+        panelModifierCeLivre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelModifierCeLivreMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelModifierCeLivreMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelModifierCeLivreMousePressed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout panelModifierLayout = new javax.swing.GroupLayout(panelModifier);
-        panelModifier.setLayout(panelModifierLayout);
-        panelModifierLayout.setHorizontalGroup(
-            panelModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelModifierLayout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel2)
-                .addContainerGap(499, Short.MAX_VALUE))
+        labelModifierCeLivre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelModifierCeLivre.setForeground(new java.awt.Color(233, 233, 233));
+        labelModifierCeLivre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelModifierCeLivre.setText("Mettre à jour ce livre");
+
+        javax.swing.GroupLayout panelModifierCeLivreLayout = new javax.swing.GroupLayout(panelModifierCeLivre);
+        panelModifierCeLivre.setLayout(panelModifierCeLivreLayout);
+        panelModifierCeLivreLayout.setHorizontalGroup(
+            panelModifierCeLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModifierCeLivreLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelModifierCeLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        panelModifierLayout.setVerticalGroup(
-            panelModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelModifierLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addComponent(jLabel2)
-                .addContainerGap(435, Short.MAX_VALUE))
+        panelModifierCeLivreLayout.setVerticalGroup(
+            panelModifierCeLivreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModifierCeLivreLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelModifierCeLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        panelModifier.add(panelModifierCeLivre, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 450, 160, -1));
+
+        labelTitreModifier.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelTitreModifier.setForeground(new java.awt.Color(24, 26, 31));
+        labelTitreModifier.setText("TITRE");
+        panelModifier.add(labelTitreModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, -1, -1));
+
+        textFieldTitreModifier.setBackground(new java.awt.Color(240, 240, 240));
+        textFieldTitreModifier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        textFieldTitreModifier.setForeground(new java.awt.Color(24, 26, 31));
+        panelModifier.add(textFieldTitreModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 240, 40));
+
+        labelAuteurModifier.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelAuteurModifier.setForeground(new java.awt.Color(24, 26, 31));
+        labelAuteurModifier.setText("AUTEUR");
+        panelModifier.add(labelAuteurModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, -1, -1));
+
+        texteFieldAuteurModifier.setBackground(new java.awt.Color(240, 240, 240));
+        texteFieldAuteurModifier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        texteFieldAuteurModifier.setForeground(new java.awt.Color(24, 26, 31));
+        panelModifier.add(texteFieldAuteurModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 240, 40));
+
+        labelNumeroModifier.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelNumeroModifier.setForeground(new java.awt.Color(24, 26, 31));
+        labelNumeroModifier.setText("NUMERO");
+        panelModifier.add(labelNumeroModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, -1, -1));
+
+        textFieldNumeroModifier.setBackground(new java.awt.Color(240, 240, 240));
+        textFieldNumeroModifier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        panelModifier.add(textFieldNumeroModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 240, 40));
+
+        labelCategorieModifier.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelCategorieModifier.setForeground(new java.awt.Color(24, 26, 31));
+        labelCategorieModifier.setText("CATEGORIE");
+        panelModifier.add(labelCategorieModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, -1, -1));
+
+        labelEmplacementModifier.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelEmplacementModifier.setForeground(new java.awt.Color(24, 26, 31));
+        labelEmplacementModifier.setText("EMPLACEMENT");
+        panelModifier.add(labelEmplacementModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, -1, -1));
+
+        labelModifiactionLogo1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelModifiactionLogo1.setForeground(new java.awt.Color(197, 56, 53));
+        labelModifiactionLogo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelModifiactionLogo1.setText("MODIFICATION");
+        panelModifier.add(labelModifiactionLogo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 270, 70));
+
+        labelModifiactionLogo2.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelModifiactionLogo2.setForeground(new java.awt.Color(197, 56, 53));
+        labelModifiactionLogo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelModifiactionLogo2.setText("D'UN");
+        panelModifier.add(labelModifiactionLogo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 180, 70));
+
+        labelModifiactionLogo3.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        labelModifiactionLogo3.setForeground(new java.awt.Color(197, 56, 53));
+        labelModifiactionLogo3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelModifiactionLogo3.setText("LIVRE");
+        panelModifier.add(labelModifiactionLogo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 180, 70));
+
+        comboBoxCategorieModifier.setBackground(new java.awt.Color(240, 240, 240));
+        comboBoxCategorieModifier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxCategorieModifier.setForeground(new java.awt.Color(24, 26, 31));
+        comboBoxCategorieModifier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Shonen", "Shojo", "Seinen" }));
+        panelModifier.add(comboBoxCategorieModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 240, 40));
+
+        comboBoxEmplacementModifier.setBackground(new java.awt.Color(240, 240, 240));
+        comboBoxEmplacementModifier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxEmplacementModifier.setForeground(new java.awt.Color(24, 26, 31));
+        comboBoxEmplacementModifier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" }));
+        panelModifier.add(comboBoxEmplacementModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 240, 40));
+
+        panelParcourirModifier.setBackground(new java.awt.Color(203, 65, 62));
+        panelParcourirModifier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelParcourirModifierMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelParcourirModifierMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelParcourirModifierMousePressed(evt);
+            }
+        });
+
+        labelParcourirModifier.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelParcourirModifier.setForeground(new java.awt.Color(233, 233, 233));
+        labelParcourirModifier.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelParcourirModifier.setText("Parcourir");
+
+        javax.swing.GroupLayout panelParcourirModifierLayout = new javax.swing.GroupLayout(panelParcourirModifier);
+        panelParcourirModifier.setLayout(panelParcourirModifierLayout);
+        panelParcourirModifierLayout.setHorizontalGroup(
+            panelParcourirModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelParcourirModifierLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelParcourirModifier, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelParcourirModifierLayout.setVerticalGroup(
+            panelParcourirModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelParcourirModifierLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(labelParcourirModifier, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        panelModifier.add(panelParcourirModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, 160, -1));
+
+        labelImageModifier.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelImageModifier.setForeground(new java.awt.Color(24, 26, 31));
+        labelImageModifier.setText("IMAGE");
+        panelModifier.add(labelImageModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, -1, -1));
 
         panelData.add(panelModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        panelButtonClose.setBackground(new java.awt.Color(226, 226, 226));
+        panelButtonClose.setBackground(new java.awt.Color(24, 26, 31));
         panelButtonClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 panelButtonCloseMouseEntered(evt);
@@ -776,7 +1371,7 @@ public class Home extends javax.swing.JFrame {
         });
 
         labelClose.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        labelClose.setForeground(new java.awt.Color(5, 7, 8));
+        labelClose.setForeground(new java.awt.Color(197, 56, 53));
         labelClose.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelClose.setText("X");
 
@@ -802,17 +1397,6 @@ public class Home extends javax.swing.JFrame {
         panelBarLayout.setVerticalGroup(
             panelBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 8, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout panelImageLayout = new javax.swing.GroupLayout(panelImage);
-        panelImage.setLayout(panelImageLayout);
-        panelImageLayout.setHorizontalGroup(
-            panelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panelImageLayout.setVerticalGroup(
-            panelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 247, Short.MAX_VALUE)
         );
 
         panelAjouterUnLivre.setBackground(new java.awt.Color(203, 65, 62));
@@ -910,10 +1494,10 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(panelPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelAjouterUnLivre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelModifierUnLivre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelSupprimerUnLivre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelSupprimerUnLivre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelImageCentrale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
@@ -938,8 +1522,8 @@ public class Home extends javax.swing.JFrame {
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(panelData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelMainLayout.createSequentialGroup()
-                                .addComponent(panelImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
+                                .addComponent(labelImageCentrale, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(panelAjouterUnLivre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(panelSupprimerUnLivre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1074,6 +1658,70 @@ public class Home extends javax.swing.JFrame {
         this.panelModifierUnLivreMouseExited();
     }//GEN-LAST:event_panelModifierUnLivreMouseExited
 
+    private void panelAjouterCeLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterCeLivreMouseEntered
+        this.panelAjouterCeLivreMouseEntered();
+    }//GEN-LAST:event_panelAjouterCeLivreMouseEntered
+
+    private void panelAjouterCeLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterCeLivreMouseExited
+        this.panelAjouterCeLivreMouseExited();
+    }//GEN-LAST:event_panelAjouterCeLivreMouseExited
+
+    private void panelSupprimerCeLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerCeLivreMouseEntered
+        this.panelSupprimerCeLivreMouseEntered();
+    }//GEN-LAST:event_panelSupprimerCeLivreMouseEntered
+
+    private void panelSupprimerCeLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerCeLivreMouseExited
+        this.panelSupprimerCeLivreMouseExited();
+    }//GEN-LAST:event_panelSupprimerCeLivreMouseExited
+
+    private void panelSupprimerCeLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelSupprimerCeLivreMousePressed
+        this.panelSupprimerCeLivreMousePressed();
+    }//GEN-LAST:event_panelSupprimerCeLivreMousePressed
+
+    private void panelModifierCeLivreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierCeLivreMouseEntered
+        this.paneModifierCeLivreMouseEntered();
+    }//GEN-LAST:event_panelModifierCeLivreMouseEntered
+
+    private void panelModifierCeLivreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierCeLivreMouseExited
+        this.paneModifierCeLivreMouseExited();
+    }//GEN-LAST:event_panelModifierCeLivreMouseExited
+
+    private void panelModifierCeLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelModifierCeLivreMousePressed
+        this.paneModifierCeLivreMousePressed();
+    }//GEN-LAST:event_panelModifierCeLivreMousePressed
+
+    private void panelAjouterCeLivreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterCeLivreMousePressed
+        this.panelAjouterCeLivreMousePressed();
+    }//GEN-LAST:event_panelAjouterCeLivreMousePressed
+
+    private void tableDatabaseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDatabaseMousePressed
+        this.tableDatabaseMousePressed();
+    }//GEN-LAST:event_tableDatabaseMousePressed
+
+    private void panelParcourirAjouterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelParcourirAjouterMouseEntered
+        this.panelParcourirAjouterMouseEntered();
+    }//GEN-LAST:event_panelParcourirAjouterMouseEntered
+
+    private void panelParcourirAjouterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelParcourirAjouterMouseExited
+        this.panelParcourirAjouterMouseExited();
+    }//GEN-LAST:event_panelParcourirAjouterMouseExited
+
+    private void panelParcourirAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelParcourirAjouterMousePressed
+        this.panelParcourirAjouterMousePressed();
+    }//GEN-LAST:event_panelParcourirAjouterMousePressed
+
+    private void panelParcourirModifierMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelParcourirModifierMouseEntered
+        this.panelParcourirModifierMouseEntered();
+    }//GEN-LAST:event_panelParcourirModifierMouseEntered
+
+    private void panelParcourirModifierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelParcourirModifierMouseExited
+        this.panelParcourirModifierMouseExited();
+    }//GEN-LAST:event_panelParcourirModifierMouseExited
+
+    private void panelParcourirModifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelParcourirModifierMousePressed
+        this.panelParcourirModifierMousePressed();
+    }//GEN-LAST:event_panelParcourirModifierMousePressed
+
     /**
      * @param args the command line arguments
      */
@@ -1110,20 +1758,56 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JCheckBox checkBoxNumAuto;
+    private javax.swing.JComboBox<String> comboBoxCategorieAjouter;
+    private javax.swing.JComboBox<String> comboBoxCategorieModifier;
+    private javax.swing.JComboBox<String> comboBoxCategorieSupprimer;
+    private javax.swing.JComboBox<String> comboBoxEmplacementAjouter;
+    private javax.swing.JComboBox<String> comboBoxEmplacementModifier;
+    private javax.swing.JComboBox<String> comboBoxEmplacementSupprimer;
+    private javax.swing.JLabel labelAjoutLogo1;
+    private javax.swing.JLabel labelAjoutLogo2;
+    private javax.swing.JLabel labelAjoutLogo3;
     private javax.swing.JLabel labelAjouter;
+    private javax.swing.JLabel labelAjouterCeLivre;
     private javax.swing.JLabel labelAjouterUnLivre;
+    private javax.swing.JLabel labelAuteurAjouter;
+    private javax.swing.JLabel labelAuteurModifier;
+    private javax.swing.JLabel labelAuteurSupprimer;
+    private javax.swing.JLabel labelCategorieAjouter;
+    private javax.swing.JLabel labelCategorieModifier;
+    private javax.swing.JLabel labelCategorieSupprimer;
     private javax.swing.JLabel labelClose;
     private javax.swing.JLabel labelConsulter;
+    private javax.swing.JLabel labelEmplacementAjouter;
+    private javax.swing.JLabel labelEmplacementModifier;
+    private javax.swing.JLabel labelEmplacementSupprimer;
     private javax.swing.JLabel labelHave;
+    private javax.swing.JLabel labelImageAjouter;
+    private javax.swing.JLabel labelImageCentrale;
+    private javax.swing.JLabel labelImageModifier;
+    private javax.swing.JLabel labelModifiactionLogo1;
+    private javax.swing.JLabel labelModifiactionLogo2;
+    private javax.swing.JLabel labelModifiactionLogo3;
     private javax.swing.JLabel labelModifier;
+    private javax.swing.JLabel labelModifierCeLivre;
     private javax.swing.JLabel labelModifierUnLivre;
+    private javax.swing.JLabel labelNumeroAjouter;
+    private javax.swing.JLabel labelNumeroModifier;
+    private javax.swing.JLabel labelNumeroSupprimer;
+    private javax.swing.JLabel labelParcourirAjouter;
+    private javax.swing.JLabel labelParcourirModifier;
     private javax.swing.JLabel labelSupprimer;
+    private javax.swing.JLabel labelSupprimerCeLivre;
     private javax.swing.JLabel labelSupprimerUnLivre;
+    private javax.swing.JLabel labelTitreAjouter;
+    private javax.swing.JLabel labelTitreModifier;
+    private javax.swing.JLabel labelTitreSupprimer;
+    private javax.swing.JLabel labelsuppressionLogo1;
+    private javax.swing.JLabel labelsuppressionLogo2;
+    private javax.swing.JLabel labelsuppressionLogo3;
     private javax.swing.JPanel panelAjouter;
+    private javax.swing.JPanel panelAjouterCeLivre;
     private javax.swing.JPanel panelAjouterUnLivre;
     private javax.swing.JPanel panelBar;
     private javax.swing.JPanel panelButtonAjouter;
@@ -1138,15 +1822,27 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel panelHideSeparatorConsulter;
     private javax.swing.JPanel panelHideSeparatorModifier;
     private javax.swing.JPanel panelHideSeparatorSupprimer;
-    private javax.swing.JPanel panelImage;
     private javax.swing.JPanel panelMain;
     private javax.swing.JPanel panelModifier;
+    private javax.swing.JPanel panelModifierCeLivre;
     private javax.swing.JPanel panelModifierUnLivre;
     private javax.swing.JPanel panelPane;
+    private javax.swing.JPanel panelParcourirAjouter;
+    private javax.swing.JPanel panelParcourirModifier;
     private javax.swing.JPanel panelSeparator;
     private javax.swing.JPanel panelSupprimer;
+    private javax.swing.JPanel panelSupprimerCeLivre;
     private javax.swing.JPanel panelSupprimerUnLivre;
     private javax.swing.JScrollPane scrollpaneDatabase;
     private javax.swing.JTable tableDatabase;
+    private javax.swing.JTextField textFieldNumeroAjouter;
+    private javax.swing.JTextField textFieldNumeroModifier;
+    private javax.swing.JTextField textFieldNumeroSupprimer;
+    private javax.swing.JTextField textFieldTitreAjouter;
+    private javax.swing.JTextField textFieldTitreModifier;
+    private javax.swing.JTextField textFieldTitreSupprimer;
+    private javax.swing.JTextField texteFieldAuteurAjouter;
+    private javax.swing.JTextField texteFieldAuteurModifier;
+    private javax.swing.JTextField texteFieldAuteurSupprimer;
     // End of variables declaration//GEN-END:variables
 }
