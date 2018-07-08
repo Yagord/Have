@@ -7,6 +7,10 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -40,26 +44,25 @@ public class Home extends javax.swing.JFrame {
     private static final Color COLOR_BUTTON_DATA_SELECTED = new Color(197, 56, 53);
     private static final Color COLOR_LABEL_DATA_UNSELECTED = new Color(233, 233, 233);
     private static final Color COLOR_LABEL_DATA_SELECTED = new Color(251, 205, 63);
+    private static final int LONGUEUR_LABEL_IMAGE_CENTRALE = 192;
+    private static final int LARGEUR_LABEL_IMAGE_CENTRALE = 266;
+    private static final int LONGUEUR_LABEL_IMAGE_APERCU = 60;
+    private static final int LARGEUR_LABEL_IMAGE_APERCU = 83;
     private boolean consulterPressed;
     private boolean ajouterPressed;
     private boolean supprimerPressed;
     private boolean modifierPressed;
-    private boolean ajouterDataPressed;
-    private boolean supprimerDataPressed;
-    private boolean modifierDataPressed;
     private GestionBaseDeDonnees gestionBaseDeDonnees;
     private int posX;
     private int posY;
     private String cheminImage;
+    private BufferedImage imageCentrale;
     
     private void initBooleanPressed() {
         this.consulterPressed = false;
         this.ajouterPressed = false;
         this.supprimerPressed = false;
         this.modifierPressed = false;
-        this.ajouterDataPressed = false;
-        this.supprimerDataPressed = false;
-        this.modifierDataPressed = false;
     }
     
     private void initGestionBaseDeDonnees() {
@@ -79,6 +82,8 @@ public class Home extends javax.swing.JFrame {
         this.comboBoxEmplacementAjouter.setSelectedIndex(0);
         this.checkBoxNumAuto.setSelected(false);
         this.cheminImage = null;
+        this.labelApercuImageAjouter.setIcon(null);
+        this.labelCheminImageAjouter.setText("");
     }
     
     private void initAffichageSupprimer() {
@@ -183,17 +188,33 @@ public class Home extends javax.swing.JFrame {
         return new ImageIcon(this.getClass().getClassLoader().getResource(cheminNoImage));
     }
     
-    private void chargerUneImageCentrale(BufferedImage bufferedImage) {
+    private void chargerUneImage(BufferedImage bufferedImage, JLabel label, int longueur, int largeur) {
         ImageIcon imageIcon = null;
         if (bufferedImage != null) {
             imageIcon = new ImageIcon(bufferedImage);
+            if (label.equals(this.labelImageCentrale)) {
+                this.imageCentrale = bufferedImage;
+            }
         }
         else {
             imageIcon = this.afficherNoImage();
         }
-        Image newImage = imageIcon.getImage().getScaledInstance(192, 266, java.awt.Image.SCALE_SMOOTH);
+        Image newImage = imageIcon.getImage().getScaledInstance(longueur, largeur, java.awt.Image.SCALE_SMOOTH);
         imageIcon.setImage(newImage);
-        this.labelImageCentrale.setIcon(imageIcon);
+        label.setIcon(imageIcon);
+    }
+    
+    private void chargerUneImageCentrale(BufferedImage bufferedImage) {
+        this.chargerUneImage(bufferedImage, this.labelImageCentrale, Home.LONGUEUR_LABEL_IMAGE_CENTRALE, Home.LARGEUR_LABEL_IMAGE_CENTRALE);
+    }
+    
+    private void chargerUneImageApercu() {
+        try {
+            BufferedImage bufferedImage = ImageIO.read(new File(this.cheminImage));
+            this.chargerUneImage(bufferedImage, this.labelApercuImageAjouter, Home.LONGUEUR_LABEL_IMAGE_APERCU, Home.LARGEUR_LABEL_IMAGE_APERCU);
+        } catch (IOException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void viderImageCentrale() {
@@ -252,7 +273,8 @@ public class Home extends javax.swing.JFrame {
             String numero = this.textFieldNumeroModifier.getText();
             String categorie = this.getCategorieIndex(this.comboBoxCategorieModifier.getSelectedIndex());
             String emplacement = String.valueOf(this.comboBoxEmplacementModifier.getSelectedIndex() + 1);
-            Livre livre = new Livre(String.valueOf(id), titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
+            
+            Livre livre = new Livre(String.valueOf(id), titre, auteur, numero, categorie, emplacement, this.cheminImage, this.imageCentrale);
             this.gestionBaseDeDonnees.updateLivreWhereId(livre);
             this.viderImageCentrale();
             this.panelButtonConsulterMousePressed();
@@ -441,32 +463,16 @@ public class Home extends javax.swing.JFrame {
     
     private void panelAjouterUnLivreMousePressed() {                                                 
         this.panelButtonAjouterMousePressed();
-        /*
-        this.ajouterDataPressed = true;
-        this.supprimerDataPressed = false;
-        this.modifierDataPressed = false;
-        
-        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        
-        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
-        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);*/
     }                                                
 
     private void panelAjouterUnLivreMouseEntered() {                                                 
-        if (!this.ajouterDataPressed) {
-            this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-            this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
-        }
+        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
     }                                                
 
     private void panelAjouterUnLivreMouseExited() {                                                
-        if (!this.ajouterDataPressed) {
-            this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-            this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        }
+        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
     }                                               
 
     private void panelSupprimerUnLivreMousePressed() {                                                   
@@ -481,33 +487,16 @@ public class Home extends javax.swing.JFrame {
             this.comboBoxEmplacementSupprimer.setSelectedItem(object[5]);
             this.chargerUneImageCentrale((BufferedImage) object[6]);
         }
-        /*
-        this.ajouterDataPressed = false;
-        this.supprimerDataPressed = true;
-        this.modifierDataPressed = false;
-        
-        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        
-        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
-        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        */
     }                                                  
 
     private void panelSupprimerUnLivreMouseEntered() {                                                   
-        if (!this.supprimerDataPressed) {
-            this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-            this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED); 
-        }
+        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED); 
     }                                                  
 
     private void panelSupprimerUnLivreMouseExited() {                                                  
-        if (!this.supprimerDataPressed) {
-            this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-            this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED); 
-        }
+        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED); 
     }                                                 
 
     private void panelModifierUnLivreMousePressed() {                                                  
@@ -522,33 +511,16 @@ public class Home extends javax.swing.JFrame {
             this.comboBoxEmplacementModifier.setSelectedItem(object[5]);
             this.chargerUneImageCentrale((BufferedImage) object[6]);
         }
-        /*
-        this.ajouterDataPressed = false;
-        this.supprimerDataPressed = false;
-        this.modifierDataPressed = true;
-        
-        this.setColor(this.panelAjouterUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-        
-        this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
-        */
     }                                                 
 
     private void panelModifierUnLivreMouseEntered() {                                                  
-        if (!this.modifierDataPressed) {
-            this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
-            this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);    
-        }
+        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);    
     }                                                 
 
     private void panelModifierUnLivreMouseExited() {                                                 
-        if (!this.modifierDataPressed) {
-            this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
-            this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);            
-        }
+        this.setColor(this.panelModifierUnLivre, Home.COLOR_BUTTON_DATA_UNSELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);            
     }
     
     private void panelAjouterCeLivreMouseEntered() {                                                 
@@ -622,6 +594,8 @@ public class Home extends javax.swing.JFrame {
 
     private void panelParcourirAjouterMousePressed() {                                                   
         this.chercherUneImage();
+        this.chargerUneImageApercu();
+        this.labelCheminImageAjouter.setText(this.cheminImage);
     }                                                                                                
 
     private void panelParcourirModifierMouseEntered() {                                                    
@@ -698,6 +672,8 @@ public class Home extends javax.swing.JFrame {
         labelParcourirAjouter = new javax.swing.JLabel();
         labelImageAjouter = new javax.swing.JLabel();
         checkBoxNumAuto = new javax.swing.JCheckBox();
+        labelApercuImageAjouter = new javax.swing.JLabel();
+        labelCheminImageAjouter = new javax.swing.JLabel();
         panelSupprimer = new javax.swing.JPanel();
         panelSupprimerCeLivre = new javax.swing.JPanel();
         labelSupprimerCeLivre = new javax.swing.JLabel();
@@ -1139,17 +1115,19 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(labelParcourirAjouter, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        panelAjouter.add(panelParcourirAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, 160, -1));
+        panelAjouter.add(panelParcourirAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 160, -1));
 
         labelImageAjouter.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         labelImageAjouter.setForeground(new java.awt.Color(24, 26, 31));
         labelImageAjouter.setText("IMAGE");
-        panelAjouter.add(labelImageAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, -1, -1));
+        panelAjouter.add(labelImageAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, -1, -1));
 
         checkBoxNumAuto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         checkBoxNumAuto.setForeground(new java.awt.Color(24, 26, 31));
         checkBoxNumAuto.setText("Activer la numérotation automatique");
         panelAjouter.add(checkBoxNumAuto, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 450, 230, 40));
+        panelAjouter.add(labelApercuImageAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 60, 83));
+        panelAjouter.add(labelCheminImageAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 433, 240, 20));
 
         panelData.add(panelAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -1825,12 +1803,14 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel labelAjouter;
     private javax.swing.JLabel labelAjouterCeLivre;
     private javax.swing.JLabel labelAjouterUnLivre;
+    private javax.swing.JLabel labelApercuImageAjouter;
     private javax.swing.JLabel labelAuteurAjouter;
     private javax.swing.JLabel labelAuteurModifier;
     private javax.swing.JLabel labelAuteurSupprimer;
     private javax.swing.JLabel labelCategorieAjouter;
     private javax.swing.JLabel labelCategorieModifier;
     private javax.swing.JLabel labelCategorieSupprimer;
+    private javax.swing.JLabel labelCheminImageAjouter;
     private javax.swing.JLabel labelClose;
     private javax.swing.JLabel labelConsulter;
     private javax.swing.JLabel labelEmplacementAjouter;

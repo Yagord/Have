@@ -6,10 +6,13 @@
 package database;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Blob;
 import model.Livre;
@@ -276,25 +279,6 @@ public class GestionBaseDeDonnees {
                 file = new File(livre.getCheminImage());
                 fileInputStream = new FileInputStream(file);
             }
-            System.out.println(livre.getCheminImage());
-            System.out.println(file);
-            System.out.println(fileInputStream);
-            /*
-            BufferedImage bufferedImage = ImageIO.read(file);
-            Blob blob = this.connection.createBlob();
-            OutputStream outputStream = blob.setBinaryStream(7);
-            ImageIO.write(bufferedImage, "jpg", outputStream);
-            
-            String sqlQuery = "UPDATE LIVRE " +
-                              "SET titre = '" + livre.getTitre()+ "', " +
-                              "auteur = '" + livre.getAuteur() + "', " +
-                              "numero = '" + livre.getNumero()+ "', " +
-                              "categorie = '" + livre.getCategorie()+ "', " +
-                              "emplacement = '" + livre.getEmplacement()+ "', " +
-                              "image = " + blob + " " +
-                              "WHERE id = " + livre.getId() + ";";
-            this.statement.executeUpdate(sqlQuery);
-            */
             String sqlQuery = "UPDATE LIVRE " +
                               "SET titre = ?, " +
                               "auteur = ?, " +
@@ -312,7 +296,12 @@ public class GestionBaseDeDonnees {
             preparedStatement.setInt(7, Integer.valueOf(livre.getId()));
             if (fileInputStream != null) {
                 preparedStatement.setBinaryStream(6, fileInputStream);
-                System.out.println("bmojfbm");
+            }
+            else if (livre.getImage() != null) {
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ImageIO.write(livre.getImage(), "png", os);
+                InputStream is = new ByteArrayInputStream(os.toByteArray());
+                preparedStatement.setBinaryStream(6, is);
             }
             else {
                 preparedStatement.setNull(6, Types.BLOB);
