@@ -141,19 +141,7 @@ public class Home extends javax.swing.JFrame {
         this.panelSupprimer.setVisible(false);
         this.panelModifier.setVisible(true);
     }
-    /*
-    private void rendreVisibleSupprimer() {
-        if (this.ligneSelectionne()) {
-            this.afficherSupprimer();
-        }
-    }
-    
-    private void rendreVisibleModifier() {
-        if (this.ligneSelectionne()) {
-            this.afficherModifier();
-        }        
-    }
-    */
+
     private void setColor(JPanel jPanel, Color color) {
         jPanel.setBackground(color);
     }
@@ -233,7 +221,6 @@ public class Home extends javax.swing.JFrame {
             ((DefaultTableModel)this.tableDatabase.getModel()).removeRow(0);
         }
         for (int i = 0; i < alLivres.size(); i++) {
-            System.out.println(alLivres.size());
             ((DefaultTableModel)this.tableDatabase.getModel()).insertRow(i, alLivres.get(i));
         }
     }
@@ -258,20 +245,19 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void modifierDonnees() {
-//        if (this.ligneSelectionne()) {
-
-//        }
-        int id = this.selectionnerIdLigne();
-        String titre = this.textFieldTitreModifier.getText();
-        String auteur = this.texteFieldAuteurModifier.getText();
-        String numero = this.textFieldNumeroModifier.getText();
-        String categorie = this.getCategorieIndex(this.comboBoxCategorieModifier.getSelectedIndex());
-        String emplacement = String.valueOf(this.comboBoxEmplacementModifier.getSelectedIndex() + 1);
-        
-        Livre livre = new Livre(String.valueOf(id), titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
-        this.gestionBaseDeDonnees.updateLivreWhereId(livre);
-                    this.viderImageCentrale();
+        if (this.ligneSelectionne()) {
+            int id = this.selectionnerIdLigne();
+            String titre = this.textFieldTitreModifier.getText();
+            String auteur = this.texteFieldAuteurModifier.getText();
+            String numero = this.textFieldNumeroModifier.getText();
+            String categorie = this.getCategorieIndex(this.comboBoxCategorieModifier.getSelectedIndex());
+            String emplacement = String.valueOf(this.comboBoxEmplacementModifier.getSelectedIndex() + 1);
+            Livre livre = new Livre(String.valueOf(id), titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
+            this.gestionBaseDeDonnees.updateLivreWhereId(livre);
+            this.viderImageCentrale();
             this.panelButtonConsulterMousePressed();
+        }
+
     }
 
     private void panelButtonCloseMousePressed() {                                              
@@ -488,7 +474,6 @@ public class Home extends javax.swing.JFrame {
         
         if (this.ligneSelectionne()) {                  //Une ligne est forcéméent sélectionnée
             Object[] object = this.selectionnerLigne();
-            System.out.println("la taille : " + object.length);
             this.textFieldTitreSupprimer.setText((String) object[1]);
             this.texteFieldAuteurSupprimer.setText((String) object[2]);
             this.textFieldNumeroSupprimer.setText((String) object[3]);
@@ -530,7 +515,6 @@ public class Home extends javax.swing.JFrame {
         
         if (this.ligneSelectionne()) {                  //Une ligne est forcéméent sélectionnée
             Object[] object = this.selectionnerLigne();
-            System.out.println("la taille : " + object.length);
             this.textFieldTitreModifier.setText((String) object[1]);
             this.texteFieldAuteurModifier.setText((String) object[2]);
             this.textFieldNumeroModifier.setText((String) object[3]);
@@ -622,7 +606,6 @@ public class Home extends javax.swing.JFrame {
     
     private void tableDatabaseMousePressed() {                                           
         int idSelectedRow = this.selectionnerIdLigne();
-        System.out.println(idSelectedRow);
         BufferedImage bufferedImage = this.gestionBaseDeDonnees.selectImageFromLivreWhereId(idSelectedRow);
         this.chargerUneImageCentrale(bufferedImage);
     }                                          
