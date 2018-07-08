@@ -141,7 +141,19 @@ public class Home extends javax.swing.JFrame {
         this.panelSupprimer.setVisible(false);
         this.panelModifier.setVisible(true);
     }
+    /*
+    private void rendreVisibleSupprimer() {
+        if (this.ligneSelectionne()) {
+            this.afficherSupprimer();
+        }
+    }
     
+    private void rendreVisibleModifier() {
+        if (this.ligneSelectionne()) {
+            this.afficherModifier();
+        }        
+    }
+    */
     private void setColor(JPanel jPanel, Color color) {
         jPanel.setBackground(color);
     }
@@ -164,9 +176,36 @@ public class Home extends javax.swing.JFrame {
         return categorie;
     }
     
+    private boolean ligneSelectionne() {
+        return !this.tableDatabase.getSelectionModel().isSelectionEmpty();
+    }
+    
+    private int selectionnerIdLigne() {
+        int indexLigne = this.tableDatabase.getSelectedRow();
+        int id = (int)this.tableDatabase.getModel().getValueAt(indexLigne, 0);
+        return id;
+    }
+    
+    private Object[] selectionnerLigne() {
+        return this.gestionBaseDeDonnees.selectAllFromLivreWhereId(this.selectionnerIdLigne());
+    }
+    
     private ImageIcon afficherNoImage() {
         String cheminNoImage = "images/noImageAvailable.png";
         return new ImageIcon(this.getClass().getClassLoader().getResource(cheminNoImage));
+    }
+    
+    private void chargerUneImageCentrale(BufferedImage bufferedImage) {
+        ImageIcon imageIcon = null;
+        if (bufferedImage != null) {
+            imageIcon = new ImageIcon(bufferedImage);
+        }
+        else {
+            imageIcon = this.afficherNoImage();
+        }
+        Image newImage = imageIcon.getImage().getScaledInstance(192, 266, java.awt.Image.SCALE_SMOOTH);
+        imageIcon.setImage(newImage);
+        this.labelImageCentrale.setIcon(imageIcon);
     }
     
     private void viderImageCentrale() {
@@ -211,11 +250,28 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void supprimerDonnees() {
-        
+        if (this.ligneSelectionne()) {
+            this.gestionBaseDeDonnees.deleteLivreWhereId(this.selectionnerIdLigne());
+            this.viderImageCentrale();
+            this.panelButtonConsulterMousePressed();
+        }
     }
     
     private void modifierDonnees() {
+//        if (this.ligneSelectionne()) {
+
+//        }
+        int id = this.selectionnerIdLigne();
+        String titre = this.textFieldTitreModifier.getText();
+        String auteur = this.texteFieldAuteurModifier.getText();
+        String numero = this.textFieldNumeroModifier.getText();
+        String categorie = this.getCategorieIndex(this.comboBoxCategorieModifier.getSelectedIndex());
+        String emplacement = String.valueOf(this.comboBoxEmplacementModifier.getSelectedIndex() + 1);
         
+        Livre livre = new Livre(String.valueOf(id), titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
+        this.gestionBaseDeDonnees.updateLivreWhereId(livre);
+                    this.viderImageCentrale();
+            this.panelButtonConsulterMousePressed();
     }
 
     private void panelButtonCloseMousePressed() {                                              
@@ -399,7 +455,7 @@ public class Home extends javax.swing.JFrame {
     
     private void panelAjouterUnLivreMousePressed() {                                                 
         this.panelButtonAjouterMousePressed();
-        
+        /*
         this.ajouterDataPressed = true;
         this.supprimerDataPressed = false;
         this.modifierDataPressed = false;
@@ -410,7 +466,7 @@ public class Home extends javax.swing.JFrame {
         
         this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
         this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
-        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);*/
     }                                                
 
     private void panelAjouterUnLivreMouseEntered() {                                                 
@@ -430,6 +486,17 @@ public class Home extends javax.swing.JFrame {
     private void panelSupprimerUnLivreMousePressed() {                                                   
         this.panelButtonSupprimerMousePressed();
         
+        if (this.ligneSelectionne()) {                  //Une ligne est forcéméent sélectionnée
+            Object[] object = this.selectionnerLigne();
+            System.out.println("la taille : " + object.length);
+            this.textFieldTitreSupprimer.setText((String) object[1]);
+            this.texteFieldAuteurSupprimer.setText((String) object[2]);
+            this.textFieldNumeroSupprimer.setText((String) object[3]);
+            this.comboBoxEmplacementSupprimer.setSelectedItem(object[4]);
+            this.comboBoxEmplacementSupprimer.setSelectedItem(object[5]);
+            this.chargerUneImageCentrale((BufferedImage) object[6]);
+        }
+        /*
         this.ajouterDataPressed = false;
         this.supprimerDataPressed = true;
         this.modifierDataPressed = false;
@@ -441,6 +508,7 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
         this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
         this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
+        */
     }                                                  
 
     private void panelSupprimerUnLivreMouseEntered() {                                                   
@@ -460,6 +528,17 @@ public class Home extends javax.swing.JFrame {
     private void panelModifierUnLivreMousePressed() {                                                  
         this.panelButtonModifierMousePressed();
         
+        if (this.ligneSelectionne()) {                  //Une ligne est forcéméent sélectionnée
+            Object[] object = this.selectionnerLigne();
+            System.out.println("la taille : " + object.length);
+            this.textFieldTitreModifier.setText((String) object[1]);
+            this.texteFieldAuteurModifier.setText((String) object[2]);
+            this.textFieldNumeroModifier.setText((String) object[3]);
+            this.comboBoxEmplacementModifier.setSelectedItem(object[4]);
+            this.comboBoxEmplacementModifier.setSelectedItem(object[5]);
+            this.chargerUneImageCentrale((BufferedImage) object[6]);
+        }
+        /*
         this.ajouterDataPressed = false;
         this.supprimerDataPressed = false;
         this.modifierDataPressed = true;
@@ -471,6 +550,7 @@ public class Home extends javax.swing.JFrame {
         this.setColor(this.labelAjouterUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
         this.setColor(this.labelSupprimerUnLivre, Home.COLOR_LABEL_DATA_UNSELECTED);
         this.setColor(this.labelModifierUnLivre, Home.COLOR_LABEL_DATA_SELECTED);
+        */
     }                                                 
 
     private void panelModifierUnLivreMouseEntered() {                                                  
@@ -510,7 +590,6 @@ public class Home extends javax.swing.JFrame {
             }
             this.cheminImage = null;
         }
-        
     }                                                
 
     private void panelSupprimerCeLivreMouseEntered() {                                                   
@@ -542,18 +621,10 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void tableDatabaseMousePressed() {                                           
-        int selectedRow = this.tableDatabase.getSelectedRow();
-        BufferedImage bufferedImage = this.gestionBaseDeDonnees.selectImageFromLivreWhereId(selectedRow + 1);
-        ImageIcon imageIcon = null;
-        if (bufferedImage != null) {
-            imageIcon = new ImageIcon(bufferedImage);
-        }
-        else {
-            imageIcon = this.afficherNoImage();
-        }
-        Image newImage = imageIcon.getImage().getScaledInstance(192, 266, java.awt.Image.SCALE_SMOOTH);
-        imageIcon.setImage(newImage);
-        this.labelImageCentrale.setIcon(imageIcon);
+        int idSelectedRow = this.selectionnerIdLigne();
+        System.out.println(idSelectedRow);
+        BufferedImage bufferedImage = this.gestionBaseDeDonnees.selectImageFromLivreWhereId(idSelectedRow);
+        this.chargerUneImageCentrale(bufferedImage);
     }                                          
 
     private void panelParcourirAjouterMouseEntered() {                                                   

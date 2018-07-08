@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Blob;
 import model.Livre;
 import java.sql.Connection;
@@ -188,11 +189,19 @@ public class GestionBaseDeDonnees {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                for (int i = 1; i <= this.nbColonnes; i++) {
+                for (int i = 1; i <= this.nbColonnes - 1; i++) {
                     object[i-1] = resultSet.getObject(i);
                 }
+                Blob blob = resultSet.getBlob("image");
+                BufferedImage image = null;
+                if (blob != null) {
+                    image = ImageIO.read(blob.getBinaryStream());
+                }
+                object[6] = image;
             }
         } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
         return object;
@@ -249,10 +258,11 @@ public class GestionBaseDeDonnees {
         try {
             String sqlQuery = "DELETE " +
                               "FROM LIVRE " +
-                              "WHERE LIVRE.id = ?";
-            PreparedStatement preparedStatement = this.connection.prepareStatement(sqlQuery);
+                              "WHERE LIVRE.id = " + id + ";";
+            this.statement.executeUpdate(sqlQuery);
+            /*PreparedStatement preparedStatement = this.connection.prepareStatement(sqlQuery);
             preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate(sqlQuery);
+            preparedStatement.executeUpdate(sqlQuery);*/
         } catch (SQLException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -260,15 +270,57 @@ public class GestionBaseDeDonnees {
     
     public void updateLivreWhereId(Livre livre) {
         try {
+            File file = null;
+            FileInputStream fileInputStream = null;
+            if (livre.getCheminImage() != null) {
+                file = new File(livre.getCheminImage());
+                fileInputStream = new FileInputStream(file);
+            }
+            System.out.println(livre.getCheminImage());
+            System.out.println(file);
+            System.out.println(fileInputStream);
+            /*
+            BufferedImage bufferedImage = ImageIO.read(file);
+            Blob blob = this.connection.createBlob();
+            OutputStream outputStream = blob.setBinaryStream(7);
+            ImageIO.write(bufferedImage, "jpg", outputStream);
+            
             String sqlQuery = "UPDATE LIVRE " +
                               "SET titre = '" + livre.getTitre()+ "', " +
                               "auteur = '" + livre.getAuteur() + "', " +
                               "numero = '" + livre.getNumero()+ "', " +
-                              "categorie = '" + livre.getCategorie()+ "' " +
-                              "emplacement = '" + livre.getCategorie()+ "' " +
-                              "WHERE id = '" + livre.getId() + "';";
+                              "categorie = '" + livre.getCategorie()+ "', " +
+                              "emplacement = '" + livre.getEmplacement()+ "', " +
+                              "image = " + blob + " " +
+                              "WHERE id = " + livre.getId() + ";";
             this.statement.executeUpdate(sqlQuery);
+            */
+            String sqlQuery = "UPDATE LIVRE " +
+                              "SET titre = ?, " +
+                              "auteur = ?, " +
+                              "numero = ?, " +
+                              "categorie = ?, " +
+                              "emplacement = ?, " +
+                              "image = ? " +
+                              "WHERE id = ? ;";
+            PreparedStatement preparedStatement = this.connection.prepareStatement(sqlQuery);
+            preparedStatement.setString(1, livre.getTitre());
+            preparedStatement.setString(2, livre.getAuteur());
+            preparedStatement.setString(3, livre.getNumero());
+            preparedStatement.setString(4, livre.getCategorie());
+            preparedStatement.setString(5, livre.getEmplacement());
+            preparedStatement.setInt(7, Integer.valueOf(livre.getId()));
+            if (fileInputStream != null) {
+                preparedStatement.setBinaryStream(6, fileInputStream);
+                System.out.println("bmojfbm");
+            }
+            else {
+                preparedStatement.setNull(6, Types.BLOB);
+            }
+            preparedStatement.executeUpdate();
         } catch (SQLException ex) {
+            Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(GestionBaseDeDonnees.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
