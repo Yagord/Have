@@ -8,6 +8,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -17,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
+import model.Configurations;
 import model.Livre;
 
 /*
@@ -30,6 +34,10 @@ import model.Livre;
  * @author Pierre-Nicolas
  */
 public class Home extends javax.swing.JFrame {
+    private Configurations config = new Configurations();
+    private static final String SEPARATOR = ";";
+    private ArrayList<String> alCategories = new ArrayList();
+    private ArrayList<String> alEmplacements = new ArrayList();
     private static final Color COLOR_BUTTON_UNSELECTED = new Color(24, 26, 31);
     private static final Color COLOR_BUTTON_SELECTED = new Color(228, 228, 229);
     private static final Color COLOR_LABEL_UNSELECTED = new Color(197, 56, 53);
@@ -68,6 +76,40 @@ public class Home extends javax.swing.JFrame {
     private void initGestionBaseDeDonnees() {
         this.gestionBaseDeDonnees = new GestionBaseDeDonnees();
         this.chargerDonnees();
+    }
+    
+    private void initConfig() {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("ressources/config.properties");
+        if (inputStream != null) {
+            this.config.chargerProperties();
+            System.out.println("charge");
+            String[] categories = this.config.getProperty("categorie").split(Home.SEPARATOR);
+            String[] emplacements = this.config.getProperty("emplacement").split(Home.SEPARATOR);
+            this.alCategories = new ArrayList(Arrays.asList(categories));
+            this.alEmplacements = new ArrayList(Arrays.asList(emplacements));
+            System.out.println(this.alCategories);
+            System.out.println(this.alEmplacements);
+        }
+    }
+    
+    private void initComboBox() {
+        this.comboBoxCategorieAjouter.removeAllItems();
+        this.comboBoxCategorieModifier.removeAllItems();
+        this.comboBoxCategorieSupprimer.removeAllItems();
+        this.comboBoxEmplacementAjouter.removeAllItems();
+        this.comboBoxEmplacementModifier.removeAllItems();
+        this.comboBoxEmplacementSupprimer.removeAllItems();
+        
+        for (int i = 0; i < this.alCategories.size(); i++) {
+            this.comboBoxCategorieAjouter.addItem(this.alCategories.get(i));
+            this.comboBoxCategorieModifier.addItem(this.alCategories.get(i));
+            this.comboBoxCategorieSupprimer.addItem(this.alCategories.get(i));
+        }
+        for (int i = 0; i < this.alEmplacements.size(); i++) {
+            this.comboBoxEmplacementAjouter.addItem(this.alEmplacements.get(i));
+            this.comboBoxEmplacementModifier.addItem(this.alEmplacements.get(i));
+            this.comboBoxEmplacementSupprimer.addItem(this.alEmplacements.get(i));
+        }
     }
     
     private void initAffichageConsulter() {
@@ -155,6 +197,7 @@ public class Home extends javax.swing.JFrame {
         jLabel.setForeground(color);
     }
     
+    /*
     private String getCategorieIndex(int indexValue) {
         String categorie = "";
         if (indexValue == 0) {
@@ -167,8 +210,8 @@ public class Home extends javax.swing.JFrame {
             categorie = "Seinen";
         }
         return categorie;
-    }
-    
+    }*/
+
     private boolean ligneSelectionne() {
         return !this.tableDatabase.getSelectionModel().isSelectionEmpty();
     }
@@ -250,8 +293,8 @@ public class Home extends javax.swing.JFrame {
         String titre = this.textFieldTitreAjouter.getText();
         String auteur = this.texteFieldAuteurAjouter.getText();
         String numero = this.textFieldNumeroAjouter.getText();
-        String categorie = this.getCategorieIndex(this.comboBoxCategorieAjouter.getSelectedIndex());
-        String emplacement = String.valueOf(this.comboBoxEmplacementAjouter.getSelectedIndex() + 1);
+        String categorie = this.comboBoxCategorieAjouter.getSelectedItem().toString();
+        String emplacement = this.comboBoxEmplacementAjouter.getSelectedItem().toString();
         
         Livre livre = new Livre("", titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
         this.gestionBaseDeDonnees.insertIntoLivre(livre);
@@ -271,8 +314,8 @@ public class Home extends javax.swing.JFrame {
             String titre = this.textFieldTitreModifier.getText();
             String auteur = this.texteFieldAuteurModifier.getText();
             String numero = this.textFieldNumeroModifier.getText();
-            String categorie = this.getCategorieIndex(this.comboBoxCategorieModifier.getSelectedIndex());
-            String emplacement = String.valueOf(this.comboBoxEmplacementModifier.getSelectedIndex() + 1);
+            String categorie = this.comboBoxCategorieModifier.getSelectedItem().toString();
+            String emplacement = this.comboBoxEmplacementModifier.getSelectedItem().toString();
             
             Livre livre = new Livre(String.valueOf(id), titre, auteur, numero, categorie, emplacement, this.cheminImage, this.imageCentrale);
             this.gestionBaseDeDonnees.updateLivreWhereId(livre);
@@ -612,6 +655,22 @@ public class Home extends javax.swing.JFrame {
         this.chercherUneImage();
     }
     
+    private void labelAddCategorieAjouterMousePressed() {
+        this.alCategories.add(this.textFieldNouveauCategorie.getText());
+        String joinCategories = String.join(SEPARATOR, alCategories);
+        this.config.ajouterProperty("categorie", joinCategories);
+        this.config.sauvegarderProperties();
+        this.initComboBox();
+    }                                                     
+
+    private void labelAddEmplacementAjouterMousePressed() {  
+        this.alEmplacements.add(this.textFieldNouveauEmplacement.getText());
+        String joinEmplacements = String.join(SEPARATOR, alEmplacements);
+        this.config.ajouterProperty("emplacement", joinEmplacements);
+        this.config.sauvegarderProperties();
+        this.initComboBox();
+    }
+    
     /**
      * Creates new form Home
      */
@@ -619,6 +678,8 @@ public class Home extends javax.swing.JFrame {
         this.initComponents();
         this.initBooleanPressed();
         this.initGestionBaseDeDonnees();
+        this.initConfig();
+        this.initComboBox();
         this.initAffichageConsulter();
     }
 
@@ -674,6 +735,10 @@ public class Home extends javax.swing.JFrame {
         checkBoxNumAuto = new javax.swing.JCheckBox();
         labelApercuImageAjouter = new javax.swing.JLabel();
         labelCheminImageAjouter = new javax.swing.JLabel();
+        labelAddCategorieAjouter = new javax.swing.JLabel();
+        labelAddEmplacementAjouter = new javax.swing.JLabel();
+        textFieldNouveauEmplacement = new javax.swing.JTextField();
+        textFieldNouveauCategorie = new javax.swing.JTextField();
         panelSupprimer = new javax.swing.JPanel();
         panelSupprimerCeLivre = new javax.swing.JPanel();
         labelSupprimerCeLivre = new javax.swing.JLabel();
@@ -1050,7 +1115,6 @@ public class Home extends javax.swing.JFrame {
         comboBoxCategorieAjouter.setBackground(new java.awt.Color(240, 240, 240));
         comboBoxCategorieAjouter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboBoxCategorieAjouter.setForeground(new java.awt.Color(24, 26, 31));
-        comboBoxCategorieAjouter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Shonen", "Shojo", "Seinen" }));
         panelAjouter.add(comboBoxCategorieAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 240, 40));
 
         labelEmplacementAjouter.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1061,7 +1125,6 @@ public class Home extends javax.swing.JFrame {
         comboBoxEmplacementAjouter.setBackground(new java.awt.Color(240, 240, 240));
         comboBoxEmplacementAjouter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboBoxEmplacementAjouter.setForeground(new java.awt.Color(24, 26, 31));
-        comboBoxEmplacementAjouter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" }));
         panelAjouter.add(comboBoxEmplacementAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 240, 40));
 
         labelAjoutLogo1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
@@ -1128,6 +1191,24 @@ public class Home extends javax.swing.JFrame {
         panelAjouter.add(checkBoxNumAuto, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 450, 230, 40));
         panelAjouter.add(labelApercuImageAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 60, 83));
         panelAjouter.add(labelCheminImageAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 433, 240, 20));
+
+        labelAddCategorieAjouter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons/add.png"))); // NOI18N
+        labelAddCategorieAjouter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                labelAddCategorieAjouterMousePressed(evt);
+            }
+        });
+        panelAjouter.add(labelAddCategorieAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 304, -1, -1));
+
+        labelAddEmplacementAjouter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons/add.png"))); // NOI18N
+        labelAddEmplacementAjouter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                labelAddEmplacementAjouterMousePressed(evt);
+            }
+        });
+        panelAjouter.add(labelAddEmplacementAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 384, -1, -1));
+        panelAjouter.add(textFieldNouveauEmplacement, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 420, 70, -1));
+        panelAjouter.add(textFieldNouveauCategorie, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 340, 70, -1));
 
         panelData.add(panelAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -1206,7 +1287,6 @@ public class Home extends javax.swing.JFrame {
         comboBoxCategorieSupprimer.setBackground(new java.awt.Color(240, 240, 240));
         comboBoxCategorieSupprimer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboBoxCategorieSupprimer.setForeground(new java.awt.Color(24, 26, 31));
-        comboBoxCategorieSupprimer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Shonen", "Shojo", "Seinen" }));
         panelSupprimer.add(comboBoxCategorieSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 240, 40));
 
         labelEmplacementSupprimer.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1217,7 +1297,6 @@ public class Home extends javax.swing.JFrame {
         comboBoxEmplacementSupprimer.setBackground(new java.awt.Color(240, 240, 240));
         comboBoxEmplacementSupprimer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboBoxEmplacementSupprimer.setForeground(new java.awt.Color(24, 26, 31));
-        comboBoxEmplacementSupprimer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" }));
         panelSupprimer.add(comboBoxEmplacementSupprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 240, 40));
 
         labelsuppressionLogo1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
@@ -1338,13 +1417,11 @@ public class Home extends javax.swing.JFrame {
         comboBoxCategorieModifier.setBackground(new java.awt.Color(240, 240, 240));
         comboBoxCategorieModifier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboBoxCategorieModifier.setForeground(new java.awt.Color(24, 26, 31));
-        comboBoxCategorieModifier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Shonen", "Shojo", "Seinen" }));
         panelModifier.add(comboBoxCategorieModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 240, 40));
 
         comboBoxEmplacementModifier.setBackground(new java.awt.Color(240, 240, 240));
         comboBoxEmplacementModifier.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboBoxEmplacementModifier.setForeground(new java.awt.Color(24, 26, 31));
-        comboBoxEmplacementModifier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" }));
         panelModifier.add(comboBoxEmplacementModifier, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 240, 40));
 
         panelParcourirModifier.setBackground(new java.awt.Color(203, 65, 62));
@@ -1754,6 +1831,14 @@ public class Home extends javax.swing.JFrame {
         this.panelParcourirModifierMousePressed();
     }//GEN-LAST:event_panelParcourirModifierMousePressed
 
+    private void labelAddCategorieAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAddCategorieAjouterMousePressed
+        this.labelAddCategorieAjouterMousePressed();
+    }//GEN-LAST:event_labelAddCategorieAjouterMousePressed
+
+    private void labelAddEmplacementAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAddEmplacementAjouterMousePressed
+        this.labelAddEmplacementAjouterMousePressed();
+    }//GEN-LAST:event_labelAddEmplacementAjouterMousePressed
+
     /**
      * @param args the command line arguments
      */
@@ -1797,6 +1882,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxEmplacementAjouter;
     private javax.swing.JComboBox<String> comboBoxEmplacementModifier;
     private javax.swing.JComboBox<String> comboBoxEmplacementSupprimer;
+    private javax.swing.JLabel labelAddCategorieAjouter;
+    private javax.swing.JLabel labelAddEmplacementAjouter;
     private javax.swing.JLabel labelAjoutLogo1;
     private javax.swing.JLabel labelAjoutLogo2;
     private javax.swing.JLabel labelAjoutLogo3;
@@ -1869,6 +1956,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel panelSupprimerUnLivre;
     private javax.swing.JScrollPane scrollpaneDatabase;
     private javax.swing.JTable tableDatabase;
+    private javax.swing.JTextField textFieldNouveauCategorie;
+    private javax.swing.JTextField textFieldNouveauEmplacement;
     private javax.swing.JTextField textFieldNumeroAjouter;
     private javax.swing.JTextField textFieldNumeroModifier;
     private javax.swing.JTextField textFieldNumeroSupprimer;
