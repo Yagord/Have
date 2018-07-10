@@ -4,6 +4,7 @@ import database.GestionBaseDeDonnees;
 import java.awt.Color;
 import java.awt.FileDialog;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileFilter;
@@ -93,6 +94,9 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void initComboBox() {
+        this.textFieldNouveauCategorie.setVisible(false);
+        this.textFieldNouveauEmplacement.setVisible(false);
+        
         this.comboBoxCategorieAjouter.removeAllItems();
         this.comboBoxCategorieModifier.removeAllItems();
         this.comboBoxCategorieSupprimer.removeAllItems();
@@ -165,6 +169,8 @@ public class Home extends javax.swing.JFrame {
         this.panelAjouter.setVisible(true);
         this.panelSupprimer.setVisible(false);
         this.panelModifier.setVisible(false);
+        
+        this.textFieldTitreAjouter.requestFocus();
     }
     
     private void afficherSupprimer() {
@@ -187,6 +193,8 @@ public class Home extends javax.swing.JFrame {
         this.panelAjouter.setVisible(false);
         this.panelSupprimer.setVisible(false);
         this.panelModifier.setVisible(true);
+        
+        this.textFieldTitreModifier.requestFocus();
     }
 
     private void setColor(JPanel jPanel, Color color) {
@@ -196,21 +204,6 @@ public class Home extends javax.swing.JFrame {
     private void setColor(JLabel jLabel, Color color) {
         jLabel.setForeground(color);
     }
-    
-    /*
-    private String getCategorieIndex(int indexValue) {
-        String categorie = "";
-        if (indexValue == 0) {
-            categorie = "Shonen";
-        }
-        else if (indexValue == 1) {
-            categorie = "Shojo";
-        }
-        else if (indexValue == 2) {
-            categorie = "Seinen";
-        }
-        return categorie;
-    }*/
 
     private boolean ligneSelectionne() {
         return !this.tableDatabase.getSelectionModel().isSelectionEmpty();
@@ -264,17 +257,20 @@ public class Home extends javax.swing.JFrame {
         this.labelImageCentrale.setIcon(null);
     }
     
-    private void chercherUneImage() {
+    private boolean chercherUneImage() {
+        boolean res = false;
         JFileChooser jFileChooser = new JFileChooser();
         jFileChooser.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
         int result = jFileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             this.cheminImage = jFileChooser.getSelectedFile().getPath();
+            res = true;
         }
         //FileDialog fileDialog = new FileDialog(this);
         //fileDialog.setVisible(true);
         //System.out.println(fileDialog.getFile());
         //System.out.println(fileDialog.getDirectory());
+        return res;
     }
         
     private void chargerDonnees() {
@@ -636,9 +632,11 @@ public class Home extends javax.swing.JFrame {
     }                                                 
 
     private void panelParcourirAjouterMousePressed() {                                                   
-        this.chercherUneImage();
-        this.chargerUneImageApercu();
-        this.labelCheminImageAjouter.setText(this.cheminImage);
+        boolean imageSelectionne = this.chercherUneImage();
+        if (imageSelectionne) {
+            this.chargerUneImageApercu();
+            this.labelCheminImageAjouter.setText(this.cheminImage);
+        }
     }                                                                                                
 
     private void panelParcourirModifierMouseEntered() {                                                    
@@ -656,19 +654,15 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void labelAddCategorieAjouterMousePressed() {
-        this.alCategories.add(this.textFieldNouveauCategorie.getText());
-        String joinCategories = String.join(SEPARATOR, alCategories);
-        this.config.ajouterProperty("categorie", joinCategories);
-        this.config.sauvegarderProperties();
-        this.initComboBox();
+        this.textFieldNouveauCategorie.setVisible(true);
+        this.labelAddCategorieAjouter.setVisible(false);
+        this.textFieldNouveauCategorie.requestFocus();
     }                                                     
 
-    private void labelAddEmplacementAjouterMousePressed() {  
-        this.alEmplacements.add(this.textFieldNouveauEmplacement.getText());
-        String joinEmplacements = String.join(SEPARATOR, alEmplacements);
-        this.config.ajouterProperty("emplacement", joinEmplacements);
-        this.config.sauvegarderProperties();
-        this.initComboBox();
+    private void labelAddEmplacementAjouterMousePressed() {
+        this.textFieldNouveauEmplacement.setVisible(true);
+        this.labelAddEmplacementAjouter.setVisible(false);
+        this.textFieldNouveauEmplacement.requestFocus();
     }
     
     /**
@@ -1041,6 +1035,11 @@ public class Home extends javax.swing.JFrame {
 
         panelAjouter.setForeground(new java.awt.Color(24, 26, 31));
         panelAjouter.setPreferredSize(new java.awt.Dimension(650, 525));
+        panelAjouter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelAjouterMouseClicked(evt);
+            }
+        });
         panelAjouter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelAjouterCeLivre.setBackground(new java.awt.Color(203, 65, 62));
@@ -1207,8 +1206,20 @@ public class Home extends javax.swing.JFrame {
             }
         });
         panelAjouter.add(labelAddEmplacementAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 384, -1, -1));
-        panelAjouter.add(textFieldNouveauEmplacement, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 420, 70, -1));
-        panelAjouter.add(textFieldNouveauCategorie, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 340, 70, -1));
+
+        textFieldNouveauEmplacement.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textFieldNouveauEmplacementKeyPressed(evt);
+            }
+        });
+        panelAjouter.add(textFieldNouveauEmplacement, new org.netbeans.lib.awtextra.AbsoluteConstraints(575, 390, 70, -1));
+
+        textFieldNouveauCategorie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textFieldNouveauCategorieKeyPressed(evt);
+            }
+        });
+        panelAjouter.add(textFieldNouveauCategorie, new org.netbeans.lib.awtextra.AbsoluteConstraints(575, 310, 70, -1));
 
         panelData.add(panelAjouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -1838,6 +1849,41 @@ public class Home extends javax.swing.JFrame {
     private void labelAddEmplacementAjouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAddEmplacementAjouterMousePressed
         this.labelAddEmplacementAjouterMousePressed();
     }//GEN-LAST:event_labelAddEmplacementAjouterMousePressed
+
+    private void textFieldNouveauCategorieKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldNouveauCategorieKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.alCategories.add(this.textFieldNouveauCategorie.getText());
+            String joinCategories = String.join(SEPARATOR, alCategories);
+            this.config.ajouterProperty("categorie", joinCategories);
+            this.config.sauvegarderProperties();
+            this.initComboBox();
+            this.textFieldNouveauCategorie.setText("");
+            this.textFieldNouveauCategorie.setVisible(false);
+            this.labelAddCategorieAjouter.setVisible(true);
+        }
+    }//GEN-LAST:event_textFieldNouveauCategorieKeyPressed
+
+    private void textFieldNouveauEmplacementKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldNouveauEmplacementKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.alEmplacements.add(this.textFieldNouveauEmplacement.getText());
+            String joinEmplacements = String.join(SEPARATOR, alEmplacements);
+            this.config.ajouterProperty("emplacement", joinEmplacements);
+            this.config.sauvegarderProperties();
+            this.initComboBox();
+            this.textFieldNouveauEmplacement.setText("");
+            this.textFieldNouveauEmplacement.setVisible(false);
+            this.labelAddEmplacementAjouter.setVisible(true);
+        }
+    }//GEN-LAST:event_textFieldNouveauEmplacementKeyPressed
+
+    private void panelAjouterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAjouterMouseClicked
+        this.textFieldNouveauCategorie.setText("");
+        this.textFieldNouveauCategorie.setVisible(false);
+        this.labelAddCategorieAjouter.setVisible(true);
+        this.textFieldNouveauEmplacement.setText("");
+        this.textFieldNouveauEmplacement.setVisible(false);
+        this.labelAddEmplacementAjouter.setVisible(true);
+    }//GEN-LAST:event_panelAjouterMouseClicked
 
     /**
      * @param args the command line arguments
