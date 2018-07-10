@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -80,8 +81,8 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void initConfig() {
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("ressources/config.properties");
-        if (inputStream != null) {
+        File file = new File("ressources/config.properties");
+        if (file.exists()) {
             this.config.chargerProperties();
             System.out.println("charge");
             String[] categories = this.config.getProperty("categorie").split(Home.SEPARATOR);

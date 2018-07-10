@@ -5,9 +5,13 @@
  */
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +33,9 @@ public class Configurations {
     
     public void sauvegarderProperties() {
         try {
-            this.properties.store(new FileOutputStream("src/ressources/config.properties"), null);
+            //URL url = this.getClass().getClassLoader().getResource("ressources/config.properties");
+            //FileOutputStream fileOutputStream = new FileOutputStream(url.getPath());
+            this.properties.store(new FileOutputStream("ressources/config.properties"), null);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Configurations.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -39,7 +45,8 @@ public class Configurations {
     
     public void chargerProperties() {
         try {
-            this.properties.load(this.getClass().getClassLoader().getResourceAsStream("ressources/config.properties"));
+            //this.properties.load(this.getClass().getClassLoader().getResourceAsStream("ressources/config.properties"));
+            this.properties.load(new FileInputStream("ressources/config.properties"));
         } catch (IOException ex) {
             Logger.getLogger(Configurations.class.getName()).log(Level.SEVERE, null, ex);
         }
