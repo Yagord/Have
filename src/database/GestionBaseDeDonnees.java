@@ -32,7 +32,7 @@ import javax.imageio.ImageIO;
  */
 public class GestionBaseDeDonnees {
     private static final String JDBC_DRIVER = "org.h2.Driver";
-    private static final String DB_URL = "jdbc:h2:~/bookDB";
+    private static final String DB_URL = "jdbc:h2:file:./database/bookDB";
     private static final String DB_USERNAME = "test";
     private static final String DB_PASSWORD = "test";
     private Connection connection;

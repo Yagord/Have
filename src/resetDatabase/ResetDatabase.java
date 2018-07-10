@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package have;
+package resetDatabase;
 
 import database.GestionBaseDeDonnees;
 import model.Livre;
@@ -12,7 +12,7 @@ import model.Livre;
  *
  * @author Pierre-Nicolas
  */
-public class Have {
+public class ResetDatabase {
 
     /**
      * @param args the command line argumentssssss
