@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
@@ -293,8 +294,19 @@ public class Home extends javax.swing.JFrame {
         String categorie = this.comboBoxCategorieAjouter.getSelectedItem().toString();
         String emplacement = this.comboBoxEmplacementAjouter.getSelectedItem().toString();
         
-        Livre livre = new Livre("", titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
-        this.gestionBaseDeDonnees.insertIntoLivre(livre);
+        if (titre.equals("") || auteur.equals("") || numero.equals("") || categorie.equals("") || emplacement.equals("") || this.cheminImage.equals("")) {
+            int reponse = JOptionPane.showConfirmDialog(this, "Vous ne remplissez pas tous les champs ?\nSouhaitez-vous enregistrer ce livre ?","Confirmation d'Enregistrement.", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (reponse == JOptionPane.OK_OPTION) {
+                Livre livre = new Livre("", titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
+                this.gestionBaseDeDonnees.insertIntoLivre(livre);
+            }
+        }
+        else {
+            Livre livre = new Livre("", titre, auteur, numero, categorie, emplacement, this.cheminImage, null);
+            this.gestionBaseDeDonnees.insertIntoLivre(livre);
+        }
+        
+        
     }
     
     private void supprimerDonnees() {
@@ -527,7 +539,7 @@ public class Home extends javax.swing.JFrame {
             this.comboBoxEmplacementSupprimer.setSelectedItem(object[5]);
             this.chargerUneImageCentrale((BufferedImage) object[6]);
         }
-    }                                                  
+    }                            
 
     private void panelSupprimerUnLivreMouseEntered() {                                                   
         this.setColor(this.panelSupprimerUnLivre, Home.COLOR_BUTTON_DATA_SELECTED);

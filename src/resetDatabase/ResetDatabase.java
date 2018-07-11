@@ -6,7 +6,6 @@
 package resetDatabase;
 
 import database.GestionBaseDeDonnees;
-import model.Livre;
 
 /**
  *
